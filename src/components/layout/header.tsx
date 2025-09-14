@@ -32,7 +32,7 @@ export default function Header() {
       className={cn(
         'sticky top-0 z-50 w-full transition-all duration-300',
         isScrolled
-          ? 'bg-background/80 shadow-md backdrop-blur-sm'
+          ? 'bg-background/80 shadow-lg backdrop-blur-lg'
           : 'bg-transparent'
       )}
     >
@@ -40,12 +40,12 @@ export default function Header() {
         <Link href="/">
           <Logo />
         </Link>
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
+              className="text-base font-medium text-foreground/70 transition-colors hover:text-primary"
             >
               {link.label}
             </Link>

@@ -8,10 +8,10 @@ export default function Events() {
   const eventImage = PlaceHolderImages.find((img) => img.id === 'event-image')
   
   return (
-    <section id="events" className="bg-secondary py-24 sm:py-32">
+    <section id="events" className="bg-secondary/50 py-24 sm:py-32 dark:bg-secondary/10">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-headline text-4xl font-bold tracking-tight md:text-5xl">
+          <h2 className="font-extrabold text-4xl tracking-tight md:text-5xl">
             Upcoming Events
           </h2>
           <p className="mt-6 text-lg text-foreground/80 md:text-xl">
@@ -21,7 +21,7 @@ export default function Events() {
         </div>
 
         <div className="mt-16 flex justify-center">
-          <Card className="w-full max-w-4xl overflow-hidden shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+          <Card className="w-full max-w-4xl overflow-hidden shadow-xl transition-shadow duration-300 hover:shadow-2xl dark:bg-card/60">
             <div className="grid md:grid-cols-2">
               <div className="relative h-64 md:h-auto">
                 {eventImage && (
@@ -53,7 +53,7 @@ export default function Events() {
         </div>
 
         <div className="mt-16 text-center">
-          <Button asChild size="lg" variant="outline" className="bg-transparent">
+          <Button asChild size="lg" variant="outline" className="bg-transparent font-semibold">
             <Link href="#">View All Events</Link>
           </Button>
         </div>
