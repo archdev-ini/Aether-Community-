@@ -34,10 +34,10 @@ export default function Hero() {
           </p>
           <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button asChild size="lg" className="font-semibold">
-              <Link href="#community">Join the Community</Link>
+              <Link href="/join">Join the Community</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-white/20 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:border-white/30 font-semibold">
-              <Link href="#events">Explore Events</Link>
+              <Link href="/events">Explore Events</Link>
             </Button>
           </div>
         </div>

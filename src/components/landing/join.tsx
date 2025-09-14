@@ -15,7 +15,7 @@ export default function Join() {
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button asChild size="lg" className="group font-semibold">
-            <Link href="#">
+            <Link href="/join">
               Join the Community Now <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>

@@ -41,12 +41,17 @@ export default function Header() {
         'fixed top-0 z-50 w-full transition-all duration-300',
         isScrolled
           ? 'bg-background/80 shadow-sm backdrop-blur-xl'
-          : 'bg-transparent text-white'
+          : 'bg-transparent'
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/">
-          <Logo />
+          <Logo
+            className={cn(
+              'transition-colors',
+              isScrolled ? 'text-foreground' : 'text-white'
+            )}
+          />
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
@@ -64,14 +69,18 @@ export default function Header() {
         </nav>
         <div className="hidden items-center gap-2 md:flex">
           <Button asChild>
-            <Link href="#join">Join Community</Link>
+            <Link href="/join">Join Community</Link>
           </Button>
         </div>
 
         <div className="md:hidden">
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn(isScrolled ? '' : 'text-white hover:text-white')}
+              >
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Open menu</span>
               </Button>
@@ -114,7 +123,7 @@ export default function Header() {
                   className="mt-8 w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <Link href="#join">Join the Community</Link>
+                  <Link href="/join">Join the Community</Link>
                 </Button>
               </div>
             </SheetContent>
