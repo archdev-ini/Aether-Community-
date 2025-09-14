@@ -11,6 +11,7 @@ export type Event = {
     imageUrl: string;
     status: 'Upcoming' | 'Past';
     registrationUrl?: string;
+    category: string;
 };
 
 const events: Event[] = [
@@ -24,6 +25,7 @@ const events: Event[] = [
         imageUrl: 'https://picsum.photos/seed/event1/1200/600',
         status: 'Upcoming',
         registrationUrl: 'https://lu.ma/aether-launch',
+        category: 'Launch & Awareness',
     },
     {
         id: '2',
@@ -34,6 +36,7 @@ const events: Event[] = [
         location: 'Eko Hotel & Suites, Lagos',
         imageUrl: 'https://picsum.photos/seed/event2/1200/600',
         status: 'Upcoming',
+        category: 'Heritage & Research Talks',
     },
     {
         id: '3',
@@ -44,6 +47,7 @@ const events: Event[] = [
         location: 'Online',
         imageUrl: 'https://picsum.photos/seed/event3/1200/600',
         status: 'Past',
+        category: 'Skill-Building Workshops',
     },
      {
         id: '4',
@@ -54,14 +58,20 @@ const events: Event[] = [
         location: 'Kempinski Hotel, Accra',
         imageUrl: 'https://picsum.photos/seed/event4/1200/600',
         status: 'Past',
+        category: 'Networking & Community Meetups',
     }
 ];
 
 // Simulate a database query
-export async function fetchEvents(): Promise<Event[]> {
+export async function fetchEvents(category?: string): Promise<Event[]> {
   // In a real app, you would fetch this data from a database.
   // To simulate network latency, we can add a small delay.
   await new Promise(resolve => setTimeout(resolve, 500));
+  
+  if (category && category !== 'All') {
+    return events.filter(event => event.category === category);
+  }
+  
   return events;
 }
 

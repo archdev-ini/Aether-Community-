@@ -7,7 +7,7 @@ import Footer from '@/components/layout/footer';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, Clock, MapPin, Ticket } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, Ticket, Tag } from 'lucide-react';
 
 export default async function EventDetailsPage({ params }: { params: { id: string } }) {
   const event = await fetchEventById(params.id);
@@ -44,9 +44,14 @@ export default async function EventDetailsPage({ params }: { params: { id: strin
 
           <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
             <div className="md:col-span-2">
-              <Badge variant={isUpcoming ? 'default' : 'secondary'} className="mb-4">
-                {event.status}
-              </Badge>
+                <div className="flex items-center gap-4 mb-4">
+                    <Badge variant={isUpcoming ? 'default' : 'secondary'}>
+                        {event.status}
+                    </Badge>
+                     <Badge variant="outline">
+                        {event.category}
+                    </Badge>
+                </div>
               <h1 className="font-sans text-4xl font-bold tracking-tighter sm:text-5xl">
                 {event.title}
               </h1>
@@ -80,6 +85,13 @@ export default async function EventDetailsPage({ params }: { params: { id: strin
                     <div>
                         <p className="font-semibold">Location</p>
                         <p className="text-foreground/80">{event.location}</p>
+                    </div>
+                  </div>
+                   <div className="flex items-start gap-3">
+                    <Tag className="h-5 w-5 flex-shrink-0 text-primary mt-1" />
+                    <div>
+                        <p className="font-semibold">Category</p>
+                        <p className="text-foreground/80">{event.category}</p>
                     </div>
                   </div>
                 </CardContent>
