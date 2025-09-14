@@ -15,10 +15,10 @@ import {
 import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#events', label: 'Events' },
-  { href: '#community', label: 'Community' },
-  { href: '#archive', label: 'Archive' },
+  { href: '/#about', label: 'About' },
+  { href: '/events', label: 'Events' },
+  { href: '/#community', label: 'Community' },
+  { href: '/#archive', label: 'Archive' },
 ]
 
 export default function Header() {
