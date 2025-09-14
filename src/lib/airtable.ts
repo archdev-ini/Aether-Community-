@@ -21,3 +21,22 @@ export const getEventsTable = async (filter?: string): Promise<Records<FieldSet>
 export const findEventByRecordId = async (recordId: string): Promise<FieldSet> => {
   return base('Events').find(recordId);
 }
+
+export type NewMember = {
+    AetherID: string;
+    FullName: string;
+    Email: string;
+    Location: string;
+    Journey: string;
+    Experience: string;
+    Interests: string;
+    Contributions: string;
+}
+
+export const createMember = async (memberData: NewMember): Promise<void> => {
+    await base('Members').create([
+        {
+            fields: memberData,
+        },
+    ]);
+};

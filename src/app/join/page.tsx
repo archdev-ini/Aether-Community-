@@ -36,6 +36,7 @@ import Footer from '@/components/layout/footer';
 import { cn } from '@/lib/utils';
 import { generateAetherId } from '@/ai/flows/generate-aether-id';
 import { useToast } from '@/hooks/use-toast';
+import { createMember } from '@/lib/airtable';
 
 const steps = [
   {
@@ -184,13 +185,27 @@ export default function JoinPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await generateAetherId({
+      // 1. Generate Aether ID
+      const { aetherId } = await generateAetherId({
         fullName: formData.fullName,
         email: formData.email,
       });
+
+      // 2. Prepare data for Airtable
+      await createMember({
+        AetherID: aetherId,
+        FullName: formData.fullName,
+        Email: formData.email,
+        Location: formData.location,
+        Journey: getJourneyLabel(formData.journey),
+        Experience: formData.experience,
+        Interests: formData.interests.join(', '),
+        Contributions: formData.contributions.map(getContributionLabel).join(', '),
+      });
+      
       setIsSubmitted(true);
     } catch (error) {
-        console.error('Failed to generate Aether ID:', error);
+        console.error('Failed to submit application:', error);
         toast({
             title: "Submission Failed",
             description: "There was an error submitting your application. Please try again.",
