@@ -5,7 +5,13 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import Logo from '@/components/logo'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
@@ -70,21 +76,26 @@ export default function Header() {
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full bg-background text-foreground">
-              <div className="flex h-full flex-col p-6">
-                <div className="mb-8 flex items-center justify-between">
+            <SheetContent
+              side="right"
+              className="w-full bg-background text-foreground"
+            >
+              <SheetHeader className="flex-row items-center justify-between space-y-0 border-b pb-4">
+                <SheetTitle>
                   <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
                     <Logo />
                   </Link>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <X className="h-6 w-6" />
-                    <span className="sr-only">Close menu</span>
-                  </Button>
-                </div>
+                </SheetTitle>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <X className="h-6 w-6" />
+                  <span className="sr-only">Close menu</span>
+                </Button>
+              </SheetHeader>
+              <div className="flex h-full flex-col p-6 pt-8">
                 <nav className="flex flex-1 flex-col items-center justify-center gap-8">
                   {navLinks.map((link) => (
                     <Link
