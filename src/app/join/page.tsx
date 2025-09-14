@@ -13,6 +13,7 @@ import {
   User,
   Mail,
   Map,
+  Check,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -31,6 +32,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Logo from '@/components/logo';
 import Link from 'next/link';
 import Footer from '@/components/layout/footer';
+import { cn } from '@/lib/utils';
 
 const steps = [
   {
@@ -103,6 +105,34 @@ type FormData = {
   agree: boolean;
 };
 
+const MultiSelectItem = ({
+  value,
+  label,
+  isSelected,
+  onToggle,
+}: {
+  value: string;
+  label: string;
+  isSelected: boolean;
+  onToggle: (value: string) => void;
+}) => (
+  <Label
+    htmlFor={value}
+    className={cn(
+      'flex w-full cursor-pointer items-center rounded-lg border p-4 text-left transition-all',
+      isSelected ? 'border-primary bg-accent' : 'bg-secondary hover:bg-secondary/80'
+    )}
+  >
+    <Checkbox
+      id={value}
+      checked={isSelected}
+      onCheckedChange={() => onToggle(value)}
+      className="mr-4 h-5 w-5 rounded-md"
+    />
+    {label}
+  </Label>
+);
+
 export default function JoinPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<FormData>({
@@ -134,7 +164,7 @@ export default function JoinPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckboxChange = (group: keyof FormData, value: string) => {
+  const handleMultiSelectChange = (group: keyof FormData, value: string) => {
     setFormData((prev) => {
       const currentValues = prev[group] as string[];
       const newValues = currentValues.includes(value)
@@ -211,35 +241,38 @@ export default function JoinPage() {
         return (
           <div className="flex flex-wrap gap-3">
             {interestOptions.map((interest) => (
-               <button
+              <Label
                 key={interest}
-                onClick={() => handleCheckboxChange('interests', interest)}
-                className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                htmlFor={interest}
+                className={cn(
+                  'cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition-colors',
                   formData.interests.includes(interest)
-                    ? 'bg-primary text-primary-foreground'
+                    ? 'border-transparent bg-primary text-primary-foreground'
                     : 'bg-secondary hover:bg-secondary/80'
-                }`}
+                )}
               >
+                <Checkbox
+                  id={interest}
+                  checked={formData.interests.includes(interest)}
+                  onCheckedChange={() => handleMultiSelectChange('interests', interest)}
+                  className="sr-only"
+                />
                 {interest}
-              </button>
+              </Label>
             ))}
           </div>
         );
       case 3:
         return (
-            <div className="flex flex-wrap gap-3">
+          <div className="space-y-3">
             {contributionOptions.map((option) => (
-              <button
+              <MultiSelectItem
                 key={option.value}
-                onClick={() => handleCheckboxChange('contributions', option.value)}
-                className={`w-full text-left flex items-center rounded-lg border p-4 transition-all ${
-                    formData.contributions.includes(option.value)
-                      ? 'bg-accent border-primary'
-                      : 'bg-secondary hover:bg-secondary/80'
-                  }`}
-              >
-                {option.label}
-              </button>
+                value={option.value}
+                label={option.label}
+                isSelected={formData.contributions.includes(option.value)}
+                onToggle={() => handleMultiSelectChange('contributions', option.value)}
+              />
             ))}
           </div>
         );
@@ -402,3 +435,5 @@ export default function JoinPage() {
     </div>
   );
 }
+
+    
