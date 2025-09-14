@@ -14,6 +14,7 @@ import {
   Mail,
   Map,
   Check,
+  Loader2,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -33,6 +34,8 @@ import Logo from '@/components/logo';
 import Link from 'next/link';
 import Footer from '@/components/layout/footer';
 import { cn } from '@/lib/utils';
+import { generateAetherId } from '@/ai/flows/generate-aether-id';
+import { useToast } from '@/hooks/use-toast';
 
 const steps = [
   {
@@ -41,9 +44,9 @@ const steps = [
     description:
       'You’re about to enter AETHER — the creative ecosystem for architects and designers. Let’s start with your basic details.',
     fields: [
-      { name: 'fullName', label: 'Full Name', icon: User },
-      { name: 'email', label: 'Email Address', icon: Mail },
-      { name: 'location', label: 'Country / City', icon: Map },
+      { name: 'fullName', label: 'Full Name', icon: User, type: 'text' },
+      { name: 'email', label: 'Email Address', icon: Mail, type: 'email' },
+      { name: 'location', label: 'Country / City', icon: Map, type: 'text' },
     ],
   },
   {
@@ -145,7 +148,10 @@ export default function JoinPage() {
     contributions: [],
     agree: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { toast } = useToast();
+
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -174,9 +180,25 @@ export default function JoinPage() {
     });
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      await generateAetherId({
+        fullName: formData.fullName,
+        email: formData.email,
+      });
+      setIsSubmitted(true);
+    } catch (error) {
+        console.error('Failed to generate Aether ID:', error);
+        toast({
+            title: "Submission Failed",
+            description: "There was an error submitting your application. Please try again.",
+            variant: "destructive",
+        })
+    } finally {
+        setIsSubmitting(false);
+    }
   };
   
   const getJourneyLabel = (value: string) => {
@@ -198,10 +220,12 @@ export default function JoinPage() {
                 <field.icon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   name={field.name}
+                  type={field.type}
                   placeholder={field.label}
-                  value={formData[field.name as keyof FormData] as string}
+                  value={formData[field.name as keyof Omit<FormData, 'interests' | 'contributions' | 'agree'>]}
                   onChange={handleInputChange}
                   className="pl-10"
+                  required
                 />
               </div>
             ))}
@@ -409,7 +433,7 @@ export default function JoinPage() {
                     </div>
                     <div className="mt-8 flex justify-between">
                     {currentStep > 0 && (
-                        <Button type="button" variant="secondary" onClick={handleBack}>
+                        <Button type="button" variant="secondary" onClick={handleBack} disabled={isSubmitting}>
                         Back
                         </Button>
                     )}
@@ -420,8 +444,8 @@ export default function JoinPage() {
                         </Button>
                     )}
                     {currentStep === steps.length - 1 && (
-                        <Button type="submit" disabled={!formData.agree}>
-                         <Send className="mr-2 h-4 w-4" /> Submit Application
+                        <Button type="submit" disabled={!formData.agree || isSubmitting}>
+                         {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...</> : <><Send className="mr-2 h-4 w-4" /> Submit Application</>}
                         </Button>
                     )}
                     </div>
