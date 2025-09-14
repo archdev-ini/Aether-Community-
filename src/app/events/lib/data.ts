@@ -50,6 +50,7 @@ const formatEvent = (record: FieldSet): Event => {
 export async function fetchEvents(category?: string): Promise<Event[]> {
   try {
     const records = await getEventsTable(category);
+    if (!records) return [];
     const events = records.map(formatEvent);
     return events;
   } catch (error) {

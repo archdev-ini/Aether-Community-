@@ -2,11 +2,22 @@
 
 import Airtable, { FieldSet, Records } from 'airtable';
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
-  process.env.AIRTABLE_BASE_ID || 'appC10wiIxtUfrlc9'
-);
+function getAirtableBase() {
+  const apiKey = process.env.AIRTABLE_API_KEY;
+  const baseId = process.env.AIRTABLE_BASE_ID;
+
+  if (!apiKey || !baseId) {
+    console.warn("Airtable API Key or Base ID is not configured. Skipping Airtable connection.");
+    return null;
+  }
+
+  return new Airtable({ apiKey }).base(baseId);
+}
 
 export const getEventsTable = async (filter?: string): Promise<Records<FieldSet>> => {
+  const base = getAirtableBase();
+  if (!base) return [];
+
   let filterFormula = '';
 
   if (filter && filter !== 'All') {
@@ -20,7 +31,10 @@ export const getEventsTable = async (filter?: string): Promise<Records<FieldSet>
   }).all();
 };
 
-export const findEventByRecordId = async (recordId: string): Promise<FieldSet> => {
+export const findEventByRecordId = async (recordId: string): Promise<FieldSet | null> => {
+  const base = getAirtableBase();
+  if (!base) return null;
+  
   return base('Events').find(recordId);
 }
 
@@ -36,6 +50,9 @@ export type NewMember = {
 }
 
 export const createMember = async (memberData: NewMember): Promise<void> => {
+    const base = getAirtableBase();
+    if (!base) return;
+
     await base('Members').create([
         {
             fields: memberData,
