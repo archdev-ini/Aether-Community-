@@ -7,7 +7,7 @@ import Footer from '@/components/layout/footer';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, Clock, MapPin, Ticket, Tag } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, Ticket, Tag, Barcode } from 'lucide-react';
 
 export default async function EventDetailsPage({ params }: { params: { id: string } }) {
   const event = await fetchEventById(params.id);
@@ -94,6 +94,15 @@ export default async function EventDetailsPage({ params }: { params: { id: strin
                         <p className="text-foreground/80">{event.category}</p>
                     </div>
                   </div>
+                  {event.eventCode && (
+                    <div className="flex items-start gap-3">
+                      <Barcode className="h-5 w-5 flex-shrink-0 text-primary mt-1" />
+                      <div>
+                          <p className="font-semibold">Event Code</p>
+                          <p className="text-foreground/80">{event.eventCode}</p>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
                 {isUpcoming && (
                   <CardFooter>

@@ -12,6 +12,7 @@ export type Event = {
     status: 'Upcoming' | 'Past';
     registrationUrl?: string;
     category: string;
+    eventCode?: string;
 };
 
 const events: Event[] = [
@@ -26,6 +27,7 @@ const events: Event[] = [
         status: 'Upcoming',
         registrationUrl: 'https://lu.ma/aether-launch',
         category: 'Launch & Awareness',
+        eventCode: 'AELW-001'
     },
     {
         id: '2',
@@ -37,6 +39,7 @@ const events: Event[] = [
         imageUrl: 'https://picsum.photos/seed/event2/1200/600',
         status: 'Upcoming',
         category: 'Heritage & Research Talks',
+        eventCode: 'SUL-001'
     },
     {
         id: '3',
@@ -48,6 +51,7 @@ const events: Event[] = [
         imageUrl: 'https://picsum.photos/seed/event3/1200/600',
         status: 'Past',
         category: 'Skill-Building Workshops',
+        eventCode: 'AOB-001'
     },
      {
         id: '4',
@@ -59,6 +63,7 @@ const events: Event[] = [
         imageUrl: 'https://picsum.photos/seed/event4/1200/600',
         status: 'Past',
         category: 'Networking & Community Meetups',
+        eventCode: 'FAC-001'
     }
 ];
 
