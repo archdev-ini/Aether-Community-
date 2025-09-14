@@ -19,7 +19,7 @@ export default function Archive() {
             case studies — a resource for students, professionals, and the world.
           </p>
           <Button asChild size="lg" variant="default" className="mt-10 group">
-            <Link href="#">
+            <Link href="/archive">
               Explore the Archive <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>

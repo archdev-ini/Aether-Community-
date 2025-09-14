@@ -18,7 +18,7 @@ const navLinks = [
   { href: '/#about', label: 'About' },
   { href: '/events', label: 'Events' },
   { href: '/#community', label: 'Community' },
-  { href: '/#archive', label: 'Archive' },
+  { href: '/archive', label: 'Archive' },
 ]
 
 export default function Header() {
