@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "Abstract architectural background for the hero section.",
+      "imageUrl": "https://picsum.photos/seed/1/1920/1080",
+      "imageHint": "abstract architecture"
+    },
+    {
+      "id": "about-image",
+      "description": "Image of architectural sketches for the About section.",
+      "imageUrl": "https://picsum.photos/seed/2/800/600",
+      "imageHint": "architectural sketch"
+    },
+    {
+      "id": "event-image",
+      "description": "Image of a person giving a presentation for the Events section.",
+      "imageUrl": "https://picsum.photos/seed/3/600/400",
+      "imageHint": "conference presentation"
+    },
+    {
+      "id": "archive-image",
+      "description": "Image of a modern library for the Archive section.",
+      "imageUrl": "https://picsum.photos/seed/4/600/800",
+      "imageHint": "modern library"
+    }
+  ]
 }

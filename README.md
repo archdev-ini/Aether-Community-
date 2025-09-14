@@ -1,5 +1,11 @@
-# Firebase Studio
+# Aether Hub
 
-This is a NextJS starter in Firebase Studio.
+This is a Next.js application for Aether Hub, a creative ecosystem for architects and designers in Africa.
 
-To get started, take a look at src/app/page.tsx.
+To get started, run the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
