@@ -8,6 +8,30 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, Clock, MapPin, Ticket, Tag, Barcode } from 'lucide-react';
+import type { Metadata } from 'next';
+
+type Props = {
+  params: { id: string }
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const event = await fetchEventById(params.id);
+
+  if (!event) {
+    return {
+      title: 'Event Not Found | Aether',
+    };
+  }
+
+  return {
+    title: `${event.title} | Aether`,
+    description: event.description,
+    openGraph: {
+        images: [event.imageUrl],
+    },
+  };
+}
+
 
 export default async function EventDetailsPage({ params }: { params: { id: string } }) {
   const event = await fetchEventById(params.id);
