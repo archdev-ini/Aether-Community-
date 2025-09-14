@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="bg-secondary">
       <div className="container mx-auto px-4 py-16 text-center md:px-6">
         <div className="mx-auto max-w-2xl">
-          <h2 className="font-headline text-4xl font-bold tracking-tight md:text-5xl">
+          <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
             Be Part of What’s Next.
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-lg text-foreground/80">
@@ -19,7 +19,7 @@ export default function Footer() {
             <Button asChild size="lg">
               <Link href="#">Join Now</Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="secondary" size="lg">
               <Link href="#">Follow on Socials</Link>
             </Button>
           </div>
