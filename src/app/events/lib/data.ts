@@ -1,3 +1,5 @@
+'use server';
+
 import { FieldSet } from 'airtable';
 import { getEventsTable, findEventByRecordId } from '@/lib/airtable';
 import { format } from 'date-fns';

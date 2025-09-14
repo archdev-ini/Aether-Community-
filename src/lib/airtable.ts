@@ -1,3 +1,5 @@
+'use server';
+
 import Airtable, { FieldSet, Records } from 'airtable';
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
