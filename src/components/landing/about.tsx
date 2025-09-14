@@ -6,7 +6,7 @@ import {
   Network,
   TestTube,
 } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const pillars = [
   {
@@ -38,8 +38,8 @@ const pillars = [
 export default function About() {
   return (
     <section id="about" className="container mx-auto px-4 py-24 sm:py-32 md:px-6">
-      <div className="mx-auto max-w-3xl text-center">
-        <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl">
+      <div className="mx-auto max-w-4xl text-center">
+        <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
           What is AETHER?
         </h2>
         <p className="mt-6 text-lg text-foreground/80 md:text-xl">
@@ -51,15 +51,15 @@ export default function About() {
       </div>
 
       <div className="mt-20">
-        <h3 className="text-center text-3xl font-bold">
+        <h3 className="text-center text-3xl font-bold tracking-tight md:text-4xl">
           Our Pillars
         </h3>
         <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {pillars.map((pillar, index) => (
             <Card
               key={pillar.title}
-              className="transform-gpu border-border/20 bg-card text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-primary hover:shadow-2xl dark:bg-card/50"
-              style={{ animationDelay: `${index * 100}ms`, animation: `fadeInUp 0.5s ease-out forwards` }}
+              className="transform-gpu rounded-xl border-border/20 bg-card text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-primary/20 dark:bg-card/50"
+              style={{ animation: `fadeInUp 0.5s ease-out ${index * 100}ms forwards`, opacity: 0 }}
             >
               <CardContent className="flex flex-col items-center justify-center p-6">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
