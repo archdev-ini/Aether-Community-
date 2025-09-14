@@ -9,20 +9,20 @@ export default function Events() {
   const eventImage = PlaceHolderImages.find((img) => img.id === 'event-image')
   
   return (
-    <section id="events" className="bg-muted/50 py-24 sm:py-32 dark:bg-card/20">
+    <section id="events" className="bg-secondary/50 py-24 sm:py-32">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
+          <h2 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
             Upcoming Events
           </h2>
-          <p className="mt-6 text-lg text-foreground/80 md:text-xl">
+          <p className="mt-6 text-lg text-foreground/70 md:text-xl">
             Join conversations, lectures, and workshops shaping the future of
             design across Africa.
           </p>
         </div>
 
         <div className="mt-16 flex justify-center">
-          <Card className="group w-full max-w-5xl overflow-hidden rounded-xl shadow-xl transition-shadow duration-300 hover:shadow-2xl dark:bg-card/60">
+          <Card className="group w-full max-w-5xl overflow-hidden rounded-xl border shadow-lg transition-shadow duration-300 hover:shadow-2xl">
             <div className="grid md:grid-cols-2">
               <div className="relative h-80 md:h-auto">
                 {eventImage && (
@@ -45,7 +45,7 @@ export default function Events() {
                       “Design Education in Nigeria” — AETHER’s Launch Webinar.
                     </p>
                   </blockquote>
-                  <p className="mt-6 text-base text-foreground/80">
+                  <p className="mt-6 text-base text-foreground/70">
                     Be part of our first-ever event where we discuss the current
                     state and future of architectural and design education in
                     Nigeria, featuring prominent industry leaders.

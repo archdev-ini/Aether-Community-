@@ -33,10 +33,10 @@ export default function Community() {
       className="container mx-auto px-4 py-24 sm:py-32 md:px-6"
     >
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
+        <h2 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
           Why Join AETHER?
         </h2>
-        <p className="mt-6 text-lg text-foreground/80 md:text-xl">
+        <p className="mt-6 text-lg text-foreground/70 md:text-xl">
           Become part of a dynamic ecosystem dedicated to growth, collaboration, and innovation in African design.
         </p>
       </div>
@@ -45,15 +45,15 @@ export default function Community() {
         {benefits.map((benefit, index) => (
           <Card
             key={benefit.title}
-            className="transform-gpu rounded-xl border-0 bg-transparent shadow-none transition-all duration-300 hover:bg-card hover:shadow-2xl hover:shadow-primary/10"
+            className="transform-gpu rounded-xl border-0 bg-transparent shadow-none"
              style={{ animation: `fadeInUp 0.5s ease-out ${index * 150}ms forwards`, opacity: 0 }}
           >
             <CardContent className="flex flex-col items-center p-8 text-center md:items-start md:text-left">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-primary">
                 <benefit.icon className="h-8 w-8" />
               </div>
-              <h3 className="mt-6 text-2xl font-bold">{benefit.title}</h3>
-              <p className="mt-2 text-base text-foreground/70">{benefit.description}</p>
+              <h3 className="mt-6 text-xl font-bold">{benefit.title}</h3>
+              <p className="mt-2 text-base text-foreground/60">{benefit.description}</p>
             </CardContent>
           </Card>
         ))}

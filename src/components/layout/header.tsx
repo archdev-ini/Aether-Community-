@@ -40,7 +40,7 @@ export default function Header() {
       className={cn(
         'fixed top-0 z-50 w-full transition-all duration-300',
         isScrolled
-          ? 'bg-background/80 shadow-md backdrop-blur-xl'
+          ? 'bg-background/80 shadow-sm backdrop-blur-xl'
           : 'bg-transparent text-white'
       )}
     >
@@ -54,7 +54,7 @@ export default function Header() {
               key={link.href}
               href={link.href}
               className={cn(
-                'text-base font-medium transition-colors hover:text-primary',
+                'text-sm font-medium transition-colors hover:text-primary',
                 isScrolled ? 'text-foreground/70' : 'text-white/80'
               )}
             >
@@ -86,7 +86,7 @@ export default function Header() {
                     <Logo />
                   </Link>
                 </SheetTitle>
-                <Button
+                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsMobileMenuOpen(false)}

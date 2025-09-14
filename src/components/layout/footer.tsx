@@ -4,22 +4,22 @@ import Logo from '@/components/logo'
 
 export default function Footer() {
   return (
-    <footer className="bg-muted/30 dark:bg-card/20">
+    <footer className="bg-background">
       <div className="border-t">
         <div className="container mx-auto flex flex-col items-center justify-between gap-6 px-4 py-8 sm:flex-row md:px-6">
-          <Logo className="text-xl" />
+          <Logo className="text-lg" />
           <p className="text-sm text-foreground/60">
             © {new Date().getFullYear()} Aether Hub. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link href="#" aria-label="Twitter">
-              <Twitter className="h-6 w-6 text-foreground/70 transition-colors hover:text-primary" />
+              <Twitter className="h-5 w-5 text-foreground/70 transition-colors hover:text-primary" />
             </Link>
             <Link href="#" aria-label="Instagram">
-              <Instagram className="h-6 w-6 text-foreground/70 transition-colors hover:text-primary" />
+              <Instagram className="h-5 w-5 text-foreground/70 transition-colors hover:text-primary" />
             </Link>
             <Link href="#" aria-label="LinkedIn">
-              <Linkedin className="h-6 w-6 text-foreground/70 transition-colors hover:text-primary" />
+              <Linkedin className="h-5 w-5 text-foreground/70 transition-colors hover:text-primary" />
             </Link>
           </div>
         </div>

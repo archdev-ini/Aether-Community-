@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex h-[95svh] min-h-[700px] flex-col items-center justify-center text-center text-white"
+      className="relative flex h-[95svh] min-h-[700px] flex-col items-center justify-center bg-black text-center text-white"
     >
       {heroImage && (
         <Image
@@ -18,16 +18,16 @@ export default function Hero() {
           alt={heroImage.description}
           data-ai-hint={heroImage.imageHint}
           fill
-          className="object-cover brightness-[.4]"
+          className="object-cover opacity-20"
           priority
         />
       )}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4">
         <div className="max-w-5xl">
-          <h1 className="text-5xl font-extrabold leading-tight drop-shadow-lg md:text-7xl lg:text-8xl">
+          <h1 className="text-5xl font-extrabold leading-tight tracking-tighter md:text-7xl lg:text-8xl">
             The Creative Ecosystem for Africa's Architects & Designers
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-white/90 drop-shadow-md md:text-xl">
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-white/80 md:text-xl">
             From students to young professionals, AETHER is the space where
             Africa’s architects and designers learn, connect, and build the
             future.
@@ -36,7 +36,7 @@ export default function Hero() {
             <Button asChild size="lg" className="font-semibold">
               <Link href="#community">Join the Community</Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:border-white font-semibold">
+            <Button asChild variant="outline" size="lg" className="border-white/20 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:border-white/30 font-semibold">
               <Link href="#events">Explore Events</Link>
             </Button>
           </div>

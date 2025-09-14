@@ -8,13 +8,13 @@ export default function Archive() {
   const archiveImage = PlaceHolderImages.find((img) => img.id === 'archive-image')
 
   return (
-    <section id="archive" className="bg-muted/50 dark:bg-card/20">
+    <section id="archive" className="bg-secondary/50">
       <div className="container mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-24 md:grid-cols-2 md:px-6 lg:gap-24">
         <div className="flex flex-col items-start text-center md:text-left">
-          <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
+          <h2 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
             Open Knowledge Archive
           </h2>
-          <p className="mt-6 text-lg text-foreground/80 md:text-xl">
+          <p className="mt-6 text-lg text-foreground/70 md:text-xl">
             AETHER is building an open archive of African design, research, and
             case studies — a resource for students, professionals, and the world.
           </p>
@@ -24,7 +24,7 @@ export default function Archive() {
             </Link>
           </Button>
         </div>
-        <div className="relative h-[500px] w-full overflow-hidden rounded-xl shadow-2xl">
+        <div className="relative h-[500px] w-full overflow-hidden rounded-xl shadow-lg">
           {archiveImage && (
              <Image
               src={archiveImage.imageUrl}

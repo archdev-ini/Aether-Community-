@@ -39,10 +39,10 @@ export default function About() {
   return (
     <section id="about" className="container mx-auto px-4 py-24 sm:py-32 md:px-6">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
+        <h2 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
           What is AETHER?
         </h2>
-        <p className="mt-6 text-lg text-foreground/80 md:text-xl">
+        <p className="mt-6 text-lg text-foreground/70 md:text-xl">
           AETHER is a creative ecosystem that empowers architects and designers
           across Africa. Inspired by the idea of aether — the medium where light
           and creativity flow — we provide the space between education,
@@ -51,21 +51,21 @@ export default function About() {
       </div>
 
       <div className="mt-20">
-        <h3 className="text-center text-3xl font-bold tracking-tight md:text-4xl">
+        <h3 className="text-center text-3xl font-bold tracking-tighter md:text-4xl">
           Our Pillars
         </h3>
         <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {pillars.map((pillar, index) => (
             <Card
               key={pillar.title}
-              className="transform-gpu rounded-xl border-border/20 bg-card text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-primary/20 dark:bg-card/50"
+              className="transform-gpu rounded-xl border bg-card text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg dark:bg-card"
               style={{ animation: `fadeInUp 0.5s ease-out ${index * 100}ms forwards`, opacity: 0 }}
             >
               <CardContent className="flex flex-col items-center justify-center p-6">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-primary">
                   <pillar.icon className="h-8 w-8" />
                 </div>
-                <p className="mt-4 text-lg font-semibold">{pillar.title}</p>
+                <p className="mt-4 text-base font-semibold">{pillar.title}</p>
               </CardContent>
             </Card>
           ))}
