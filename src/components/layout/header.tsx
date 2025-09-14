@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
+import { ThemeToggle } from '../theme-toggle'
 
 const navLinks = [
   { href: '/#about', label: 'About' },
@@ -35,22 +36,23 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const headerClasses = cn(
+    'fixed top-0 z-50 w-full transition-all duration-300',
+    isScrolled
+      ? 'bg-background/80 shadow-sm backdrop-blur-xl'
+      : 'bg-transparent'
+  );
+
+  const linkColorClass = isScrolled ? 'text-foreground/70' : 'text-white/80';
+  const logoColorClass = isScrolled ? 'text-foreground' : 'text-white';
+
+
   return (
-    <header
-      className={cn(
-        'fixed top-0 z-50 w-full transition-all duration-300',
-        isScrolled
-          ? 'bg-background/80 shadow-sm backdrop-blur-xl'
-          : 'bg-transparent'
-      )}
-    >
+    <header className={headerClasses}>
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/">
           <Logo
-            className={cn(
-              'transition-colors',
-              isScrolled ? 'text-foreground' : 'text-white'
-            )}
+            className={cn('dark:text-white', logoColorClass)}
           />
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
@@ -59,8 +61,8 @@ export default function Header() {
               key={link.href}
               href={link.href}
               className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                isScrolled ? 'text-foreground/70' : 'text-white/80'
+                'text-sm font-medium transition-colors hover:text-primary dark:hover:text-primary-foreground',
+                isScrolled ? 'text-foreground/70' : 'text-white/80 dark:text-white/80'
               )}
             >
               {link.label}
@@ -68,18 +70,20 @@ export default function Header() {
           ))}
         </nav>
         <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <Button asChild>
             <Link href="/join">Join Community</Link>
           </Button>
         </div>
 
-        <div className="md:hidden">
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className={cn(isScrolled ? '' : 'text-white hover:text-white')}
+                className={cn(isScrolled ? '' : 'text-white hover:text-white', 'dark:text-white dark:hover:text-white')}
               >
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Open menu</span>
