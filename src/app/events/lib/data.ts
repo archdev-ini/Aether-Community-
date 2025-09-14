@@ -52,7 +52,7 @@ export async function fetchEvents(category?: string): Promise<Event[]> {
     return events;
   } catch (error) {
     console.error('Failed to fetch events from Airtable:', error);
-    // Return an empty array or handle the error as needed
+    // Return an empty array to prevent the page from crashing
     return [];
   }
 }
@@ -66,6 +66,7 @@ export async function fetchEventById(id: string): Promise<Event | undefined> {
     return undefined;
   } catch (error) {
     console.error(`Failed to fetch event with id ${id}:`, error);
+    // Return undefined to allow the page to show a 404, but not crash
     return undefined;
   }
 }
