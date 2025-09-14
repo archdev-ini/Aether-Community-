@@ -12,7 +12,7 @@ export default function Events() {
     <section id="events" className="bg-secondary/50 py-24 sm:py-32">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
+          <h2 className="font-sans text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
             Upcoming Events
           </h2>
           <p className="mt-6 text-lg text-foreground/70 md:text-xl">
@@ -37,11 +37,11 @@ export default function Events() {
               </div>
               <div className="flex flex-col justify-center p-8 lg:p-12">
                 <CardContent className="p-0">
-                  <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-primary">
+                  <p className="mb-2 font-sans text-sm font-semibold uppercase tracking-wider text-primary">
                     Inaugural Event
                   </p>
                   <blockquote className="border-l-4 border-primary pl-6">
-                    <p className="text-2xl font-semibold italic text-foreground lg:text-3xl">
+                    <p className="font-sans text-2xl font-semibold italic text-foreground lg:text-3xl">
                       “Design Education in Nigeria” — AETHER’s Launch Webinar.
                     </p>
                   </blockquote>

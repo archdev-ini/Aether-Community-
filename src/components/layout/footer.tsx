@@ -7,9 +7,9 @@ export default function Footer() {
     <footer className="bg-background">
       <div className="border-t">
         <div className="container mx-auto flex flex-col items-center justify-between gap-6 px-4 py-8 sm:flex-row md:px-6">
-          <Logo className="text-lg" />
+          <Logo />
           <p className="text-sm text-foreground/60">
-            © {new Date().getFullYear()} Aether Hub. All rights reserved.
+            © {new Date().getFullYear()} Aether. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link href="#" aria-label="Twitter">

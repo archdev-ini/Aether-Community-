@@ -24,7 +24,7 @@ export default function Hero() {
       )}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4">
         <div className="max-w-5xl">
-          <h1 className="text-5xl font-extrabold leading-tight tracking-tighter md:text-7xl lg:text-8xl">
+          <h1 className="font-sans text-5xl font-extrabold leading-tight tracking-tighter md:text-7xl lg:text-8xl">
             The Creative Ecosystem for Africa's Architects & Designers
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-white/80 md:text-xl">

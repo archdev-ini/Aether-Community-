@@ -11,7 +11,7 @@ export default function Archive() {
     <section id="archive" className="bg-secondary/50">
       <div className="container mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-24 md:grid-cols-2 md:px-6 lg:gap-24">
         <div className="flex flex-col items-start text-center md:text-left">
-          <h2 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
+          <h2 className="font-sans text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
             Open Knowledge Archive
           </h2>
           <p className="mt-6 text-lg text-foreground/70 md:text-xl">

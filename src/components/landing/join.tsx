@@ -6,7 +6,7 @@ export default function Join() {
   return (
     <section id="join" className="bg-secondary/50">
       <div className="container mx-auto max-w-7xl px-4 py-24 text-center md:px-6">
-        <h2 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
+        <h2 className="font-sans text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
           Be Part of What’s Next
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-foreground/70 md:text-xl">

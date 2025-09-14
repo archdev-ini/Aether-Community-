@@ -39,7 +39,7 @@ export default function About() {
   return (
     <section id="about" className="container mx-auto px-4 py-24 sm:py-32 md:px-6">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
+        <h2 className="font-sans text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
           What is AETHER?
         </h2>
         <p className="mt-6 text-lg text-foreground/70 md:text-xl">
@@ -51,7 +51,7 @@ export default function About() {
       </div>
 
       <div className="mt-20">
-        <h3 className="text-center text-3xl font-bold tracking-tighter md:text-4xl">
+        <h3 className="font-sans text-center text-3xl font-bold tracking-tighter md:text-4xl">
           Our Pillars
         </h3>
         <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
@@ -65,7 +65,7 @@ export default function About() {
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-primary">
                   <pillar.icon className="h-8 w-8" />
                 </div>
-                <p className="mt-4 text-base font-semibold">{pillar.title}</p>
+                <p className="mt-4 font-sans text-base font-semibold">{pillar.title}</p>
               </CardContent>
             </Card>
           ))}

@@ -33,7 +33,7 @@ export default function Community() {
       className="container mx-auto px-4 py-24 sm:py-32 md:px-6"
     >
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
+        <h2 className="font-sans text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
           Why Join AETHER?
         </h2>
         <p className="mt-6 text-lg text-foreground/70 md:text-xl">
@@ -52,7 +52,7 @@ export default function Community() {
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-primary">
                 <benefit.icon className="h-8 w-8" />
               </div>
-              <h3 className="mt-6 text-xl font-bold">{benefit.title}</h3>
+              <h3 className="mt-6 font-sans text-xl font-bold">{benefit.title}</h3>
               <p className="mt-2 text-base text-foreground/60">{benefit.description}</p>
             </CardContent>
           </Card>
