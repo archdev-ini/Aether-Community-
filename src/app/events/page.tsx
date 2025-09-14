@@ -45,7 +45,7 @@ function EventCard({ event }: { event: Event }) {
         </div>
         <div className="mt-4">
           <Button asChild variant="secondary" className="group/button">
-            <Link href="#">
+            <Link href={event.status === 'Upcoming' ? '/join' : '#'}>
               {event.status === 'Upcoming' ? 'Register Now' : 'View Details'}
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/button:translate-x-1" />
             </Link>
