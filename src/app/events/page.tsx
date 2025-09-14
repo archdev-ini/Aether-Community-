@@ -1,76 +1,113 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { PlaceHolderImages } from '@/lib/placeholder-images'
-import { ArrowRight } from 'lucide-react'
-import Header from '@/components/layout/header'
-import Footer from '@/components/layout/footer'
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { ArrowRight, Calendar, Clock, MapPin } from 'lucide-react';
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
+import { fetchEvents, Event } from '@/app/events/lib/data';
+import { Badge } from '@/components/ui/badge';
 
-export default function EventsPage() {
-  const eventImage = PlaceHolderImages.find((img) => img.id === 'event-image')
-  
+function EventCard({ event }: { event: Event }) {
+  return (
+    <Card className="group w-full overflow-hidden rounded-xl border shadow-lg transition-shadow duration-300 hover:shadow-2xl">
+      <div className="relative h-60 w-full">
+        <Image
+          src={event.imageUrl}
+          alt={event.title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <Badge className="absolute right-4 top-4" variant={event.status === 'Upcoming' ? 'default' : 'secondary'}>{event.status}</Badge>
+      </div>
+      <CardContent className="flex flex-col gap-4 p-6">
+        <div>
+            <h3 className="font-sans text-2xl font-bold tracking-tight">
+                {event.title}
+            </h3>
+            <p className="mt-2 text-base text-foreground/70">
+                {event.description}
+            </p>
+        </div>
+        <div className="flex flex-col gap-2 text-sm text-foreground/80">
+            <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-primary" />
+                <span>{event.date}</span>
+            </div>
+            <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-primary" />
+                <span>{event.time}</span>
+            </div>
+            <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-primary" />
+                <span>{event.location}</span>
+            </div>
+        </div>
+        <div className="mt-4">
+          <Button asChild variant="secondary" className="group/button">
+            <Link href="#">
+              {event.status === 'Upcoming' ? 'Register Now' : 'View Details'}
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/button:translate-x-1" />
+            </Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default async function EventsPage() {
+  const events = await fetchEvents();
+  const upcomingEvents = events.filter((e) => e.status === 'Upcoming');
+  const pastEvents = events.filter((e) => e.status === 'Past');
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <section id="events" className="bg-secondary/50 py-24 sm:py-32">
+        <section id="events" className="py-24 sm:py-32">
           <div className="container mx-auto max-w-7xl px-4 md:px-6">
             <div className="mx-auto max-w-4xl text-center">
               <h2 className="font-sans text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
-                Upcoming Events
+                Events
               </h2>
               <p className="mt-6 text-lg text-foreground/70 md:text-xl">
-                Join conversations, lectures, and workshops shaping the future of
-                design across Africa.
+                Join conversations, lectures, and workshops shaping the future
+                of design across Africa.
               </p>
             </div>
 
-            <div className="mt-16 flex justify-center">
-              <Card className="group w-full max-w-5xl overflow-hidden rounded-xl border shadow-lg transition-shadow duration-300 hover:shadow-2xl">
-                <div className="grid md:grid-cols-2">
-                  <div className="relative h-80 md:h-auto">
-                    {eventImage && (
-                      <Image
-                        src={eventImage.imageUrl}
-                        alt={eventImage.description}
-                        data-ai-hint={eventImage.imageHint}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    )}
-                  </div>
-                  <div className="flex flex-col justify-center p-8 lg:p-12">
-                    <CardContent className="p-0">
-                      <p className="mb-2 font-sans text-sm font-semibold uppercase tracking-wider text-primary">
-                        Inaugural Event
-                      </p>
-                      <blockquote className="border-l-4 border-primary pl-6">
-                        <p className="font-sans text-2xl font-semibold italic text-foreground lg:text-3xl">
-                          “Design Education in Nigeria” — AETHER’s Launch Webinar.
-                        </p>
-                      </blockquote>
-                      <p className="mt-6 text-base text-foreground/70">
-                        Be part of our first-ever event where we discuss the current
-                        state and future of architectural and design education in
-                        Nigeria, featuring prominent industry leaders.
-                      </p>
-                    </CardContent>
-                    <div className="mt-8">
-                        <Button asChild size="lg" variant="secondary" className="group/button">
-                            <Link href="#">
-                                Register Now <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/button:translate-x-1" />
-                            </Link>
-                        </Button>
+            {upcomingEvents.length > 0 && (
+                <div className="mt-20">
+                    <h3 className="font-sans text-3xl font-bold tracking-tighter md:text-4xl mb-12 text-center">Upcoming Events</h3>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {upcomingEvents.map((event) => (
+                            <EventCard key={event.id} event={event} />
+                        ))}
                     </div>
-                  </div>
                 </div>
-              </Card>
-            </div>
+            )}
+
+            {pastEvents.length > 0 && (
+                <div className="mt-20">
+                    <h3 className="font-sans text-3xl font-bold tracking-tighter md:text-4xl mb-12 text-center">Past Events</h3>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {pastEvents.map((event) => (
+                            <EventCard key={event.id} event={event} />
+                        ))}
+                    </div>
+                </div>
+            )}
+            
+            {events.length === 0 && (
+                <div className="mt-20 text-center">
+                    <p className="text-lg text-foreground/70">No events scheduled at the moment. Please check back later!</p>
+                </div>
+            )}
           </div>
         </section>
       </main>
       <Footer />
     </div>
-  )
+  );
 }
