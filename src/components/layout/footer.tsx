@@ -15,7 +15,7 @@ export default function Footer() {
             <Link href="https://x.com/aethernwk?s=09" aria-label="Twitter" target="_blank">
               <Twitter className="h-5 w-5 text-foreground/70 transition-colors hover:text-primary" />
             </Link>
-            <Link href="#" aria-label="Instagram">
+            <Link href="https://www.instagram.com/aether_eco?igsh=ZjNzeW11azl1M3dq" aria-label="Instagram" target="_blank">
               <Instagram className="h-5 w-5 text-foreground/70 transition-colors hover:text-primary" />
             </Link>
             <Link href="https://www.linkedin.com/company/aether-ecosystem/" aria-label="LinkedIn" target="_blank">
