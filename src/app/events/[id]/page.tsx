@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { fetchEventById } from '@/app/events/lib/data';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, Clock, MapPin } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, Ticket } from 'lucide-react';
 
 export default async function EventDetailsPage({ params }: { params: { id: string } }) {
   const event = await fetchEventById(params.id);
@@ -15,6 +15,8 @@ export default async function EventDetailsPage({ params }: { params: { id: strin
   if (!event) {
     notFound();
   }
+  
+  const isUpcoming = event.status === 'Upcoming';
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -41,7 +43,7 @@ export default async function EventDetailsPage({ params }: { params: { id: strin
 
           <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
             <div className="md:col-span-2">
-              <Badge variant={event.status === 'Upcoming' ? 'default' : 'secondary'} className="mb-4">
+              <Badge variant={isUpcoming ? 'default' : 'secondary'} className="mb-4">
                 {event.status}
               </Badge>
               <h1 className="font-sans text-4xl font-bold tracking-tighter sm:text-5xl">
@@ -80,6 +82,16 @@ export default async function EventDetailsPage({ params }: { params: { id: strin
                     </div>
                   </div>
                 </CardContent>
+                {isUpcoming && (
+                  <CardFooter>
+                    <Button asChild size="lg" className="w-full">
+                      <Link href="/join">
+                        <Ticket className="mr-2 h-5 w-5" />
+                        Register Now
+                      </Link>
+                    </Button>
+                  </CardFooter>
+                )}
               </Card>
             </div>
           </div>

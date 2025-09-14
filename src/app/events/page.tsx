@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 
 function EventCard({ event }: { event: Event }) {
   const isUpcoming = event.status === 'Upcoming';
-  const eventUrl = isUpcoming ? '/join' : `/events/${event.id}`;
+  const eventUrl = `/events/${event.id}`;
 
   return (
     <Card className="group w-full overflow-hidden rounded-xl border shadow-lg transition-shadow duration-300 hover:shadow-2xl">
@@ -28,7 +28,7 @@ function EventCard({ event }: { event: Event }) {
             <h3 className="font-sans text-2xl font-bold tracking-tight">
                 {event.title}
             </h3>
-            <p className="mt-2 text-base text-foreground/70">
+            <p className="mt-2 text-base text-foreground/70 line-clamp-3">
                 {event.description}
             </p>
         </div>
@@ -46,10 +46,10 @@ function EventCard({ event }: { event: Event }) {
                 <span>{event.location}</span>
             </div>
         </div>
-        <div className="mt-4">
-          <Button asChild variant="secondary" className="group/button">
+        <div className="mt-auto pt-4">
+          <Button asChild variant="secondary" className="group/button w-full sm:w-auto">
             <Link href={eventUrl}>
-              {isUpcoming ? 'Register Now' : 'View Details'}
+              View Details
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/button:translate-x-1" />
             </Link>
           </Button>
@@ -83,7 +83,7 @@ export default async function EventsPage() {
             {upcomingEvents.length > 0 && (
                 <div className="mt-20">
                     <h3 className="font-sans text-3xl font-bold tracking-tighter md:text-4xl mb-12 text-center">Upcoming Events</h3>
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
                         {upcomingEvents.map((event) => (
                             <EventCard key={event.id} event={event} />
                         ))}
@@ -94,7 +94,7 @@ export default async function EventsPage() {
             {pastEvents.length > 0 && (
                 <div className="mt-20">
                     <h3 className="font-sans text-3xl font-bold tracking-tighter md:text-4xl mb-12 text-center">Past Events</h3>
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
                         {pastEvents.map((event) => (
                             <EventCard key={event.id} event={event} />
                         ))}
