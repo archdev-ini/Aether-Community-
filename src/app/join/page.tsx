@@ -370,10 +370,13 @@ export default function JoinPage() {
             <main className="flex flex-1 items-center justify-center p-4">
                 <Card className="w-full max-w-2xl text-center shadow-2xl">
                     <CardContent className="p-8 md:p-12">
-                        <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2, type: 'spring' }}>
-                            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 mb-6">
-                                <span className="text-4xl">🎉</span>
-                            </div>
+                        <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.2, type: 'spring', stiffness: 260, damping: 20 }}
+                            className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/50"
+                        >
+                            <Check className="h-10 w-10 text-green-600 dark:text-green-400" strokeWidth={3} />
                         </motion.div>
                         <h2 className="text-3xl font-bold tracking-tight text-primary">Application Received!</h2>
                         <p className="mt-4 text-lg text-foreground/80">
@@ -474,3 +477,5 @@ export default function JoinPage() {
     </div>
   );
 }
+
+    
