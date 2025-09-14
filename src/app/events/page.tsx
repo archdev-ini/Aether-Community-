@@ -9,6 +9,9 @@ import { fetchEvents, Event } from '@/app/events/lib/data';
 import { Badge } from '@/components/ui/badge';
 
 function EventCard({ event }: { event: Event }) {
+  const isUpcoming = event.status === 'Upcoming';
+  const eventUrl = isUpcoming ? '/join' : `/events/${event.id}`;
+
   return (
     <Card className="group w-full overflow-hidden rounded-xl border shadow-lg transition-shadow duration-300 hover:shadow-2xl">
       <div className="relative h-60 w-full">
@@ -18,7 +21,7 @@ function EventCard({ event }: { event: Event }) {
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <Badge className="absolute right-4 top-4" variant={event.status === 'Upcoming' ? 'default' : 'secondary'}>{event.status}</Badge>
+        <Badge className="absolute right-4 top-4" variant={isUpcoming ? 'default' : 'secondary'}>{event.status}</Badge>
       </div>
       <CardContent className="flex flex-col gap-4 p-6">
         <div>
@@ -45,8 +48,8 @@ function EventCard({ event }: { event: Event }) {
         </div>
         <div className="mt-4">
           <Button asChild variant="secondary" className="group/button">
-            <Link href={event.status === 'Upcoming' ? '/join' : '#'}>
-              {event.status === 'Upcoming' ? 'Register Now' : 'View Details'}
+            <Link href={eventUrl}>
+              {isUpcoming ? 'Register Now' : 'View Details'}
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/button:translate-x-1" />
             </Link>
           </Button>

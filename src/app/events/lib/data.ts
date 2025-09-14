@@ -16,41 +16,41 @@ const events: Event[] = [
     {
         id: '1',
         title: 'Design Education in Nigeria',
-        description: 'AETHER’s Launch Webinar discussing the current state and future of architectural and design education in Nigeria.',
+        description: 'AETHER’s Launch Webinar discussing the current state and future of architectural and design education in Nigeria. This session brings together leading educators, practitioners, and policymakers to debate and propose innovative models for design education that are relevant to Nigeria\'s unique context and challenges. Topics include curriculum reform, industry collaboration, and the role of technology.',
         date: 'October 28, 2024',
         time: '4:00 PM WAT',
         location: 'Online',
-        imageUrl: 'https://picsum.photos/seed/event1/600/400',
+        imageUrl: 'https://picsum.photos/seed/event1/1200/600',
         status: 'Upcoming',
     },
     {
         id: '2',
         title: 'Sustainable Urbanism in Lagos',
-        description: 'Exploring innovative approaches to create sustainable and resilient urban environments in Lagos.',
+        description: 'Exploring innovative approaches to create sustainable and resilient urban environments in Lagos. This full-day conference features keynote presentations, panel discussions, and case studies on green infrastructure, waste management, and community-led urban development projects. Join us to explore the future of Africa\'s largest metropolis.',
         date: 'November 15, 2024',
         time: '2:00 PM WAT',
         location: 'Eko Hotel & Suites, Lagos',
-        imageUrl: 'https://picsum.photos/seed/event2/600/400',
+        imageUrl: 'https://picsum.photos/seed/event2/1200/600',
         status: 'Upcoming',
     },
     {
         id: '3',
         title: 'The Art of Biomimicry',
-        description: 'A workshop on how nature can inspire architectural innovation and sustainable design solutions.',
+        description: 'A hands-on workshop on how nature can inspire architectural innovation and sustainable design solutions. Participants will learn the principles of biomimicry and apply them to a design challenge, mentored by leading experts in the field. This workshop is ideal for architects, designers, and engineers looking to integrate nature-inspired strategies into their practice.',
         date: 'September 5, 2024',
         time: '10:00 AM WAT',
         location: 'Online',
-        imageUrl: 'https://picsum.photos/seed/event3/600/400',
+        imageUrl: 'https://picsum.photos/seed/event3/1200/600',
         status: 'Past',
     },
      {
         id: '4',
         title: 'Future of African Cities',
-        description: 'A panel discussion with leading architects on the challenges and opportunities for urban development across Africa.',
+        description: 'A thought-provoking panel discussion with leading architects on the pressing challenges and exciting opportunities for urban development across Africa. The conversation will cover topics such as housing, transportation, public space, and the integration of smart technologies in city planning. The event will conclude with a networking reception.',
         date: 'August 12, 2024',
         time: '6:00 PM WAT',
         location: 'Kempinski Hotel, Accra',
-        imageUrl: 'https://picsum.photos/seed/event4/600/400',
+        imageUrl: 'https://picsum.photos/seed/event4/1200/600',
         status: 'Past',
     }
 ];
@@ -61,4 +61,9 @@ export async function fetchEvents(): Promise<Event[]> {
   // To simulate network latency, we can add a small delay.
   await new Promise(resolve => setTimeout(resolve, 500));
   return events;
+}
+
+export async function fetchEventById(id: string): Promise<Event | undefined> {
+  await new Promise(resolve => setTimeout(resolve, 500));
+  return events.find(event => event.id === id);
 }
