@@ -10,6 +10,7 @@ export type Event = {
     location: string;
     imageUrl: string;
     status: 'Upcoming' | 'Past';
+    registrationUrl?: string;
 };
 
 const events: Event[] = [
@@ -22,6 +23,7 @@ const events: Event[] = [
         location: 'Online',
         imageUrl: 'https://picsum.photos/seed/event1/1200/600',
         status: 'Upcoming',
+        registrationUrl: 'https://lu.ma/aether-launch',
     },
     {
         id: '2',

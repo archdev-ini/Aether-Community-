@@ -17,6 +17,7 @@ export default async function EventDetailsPage({ params }: { params: { id: strin
   }
   
   const isUpcoming = event.status === 'Upcoming';
+  const registrationLink = event.registrationUrl || '/join';
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -85,7 +86,7 @@ export default async function EventDetailsPage({ params }: { params: { id: strin
                 {isUpcoming && (
                   <CardFooter>
                     <Button asChild size="lg" className="w-full">
-                      <Link href="/join">
+                      <Link href={registrationLink} target={event.registrationUrl ? '_blank' : '_self'}>
                         <Ticket className="mr-2 h-5 w-5" />
                         Register Now
                       </Link>
