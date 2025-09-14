@@ -354,7 +354,7 @@ export default function JoinPage() {
                         </div>
                          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                             <Button asChild size="lg">
-                                <Link href="#community">Join Community Chat</Link>
+                                <Link href="https://chat.whatsapp.com/Bvwdx1p9h5G9goxokoDDhl?mode=ems_copy_c" target="_blank">Join Community Chat</Link>
                             </Button>
                             <Button asChild variant="secondary" size="lg">
                                 <Link href="/events">Explore Events</Link>

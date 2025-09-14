@@ -12,13 +12,13 @@ export default function Footer() {
             © {new Date().getFullYear()} Aether. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Link href="#" aria-label="Twitter">
+            <Link href="https://x.com/aethernwk?s=09" aria-label="Twitter" target="_blank">
               <Twitter className="h-5 w-5 text-foreground/70 transition-colors hover:text-primary" />
             </Link>
             <Link href="#" aria-label="Instagram">
               <Instagram className="h-5 w-5 text-foreground/70 transition-colors hover:text-primary" />
             </Link>
-            <Link href="#" aria-label="LinkedIn">
+            <Link href="https://www.linkedin.com/company/aether-ecosystem/" aria-label="LinkedIn" target="_blank">
               <Linkedin className="h-5 w-5 text-foreground/70 transition-colors hover:text-primary" />
             </Link>
           </div>
