@@ -1,14 +1,13 @@
 'use server';
 
 /**
- * @fileOverview A flow for generating a unique Aether ID for new members.
+ * @fileOverview A function for generating a unique Aether ID for new members.
  *
  * - generateAetherId - A function that generates a unique Aether ID.
  * - GenerateAetherIdInput - The input type for the generateAetherId function.
  * - GenerateAetherIdOutput - The return type for the generateAetherId function.
  */
 
-import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 
 const GenerateAetherIdInputSchema = z.object({
@@ -34,31 +33,28 @@ async function getNextSequentialNumber(): Promise<number> {
   return Promise.resolve(sequentialNumber);
 }
 
+/**
+ * Generates a unique Aether ID for a new member.
+ * @param input - The new member's details.
+ * @returns An object containing the generated Aether ID.
+ */
 export async function generateAetherId(
   input: GenerateAetherIdInput
 ): Promise<GenerateAetherIdOutput> {
-  return generateAetherIdFlow(input);
+  // Validate input
+  GenerateAetherIdInputSchema.parse(input);
+
+  const year = new Date().getFullYear();
+  
+  // In a real application, you'd want to ensure this number is unique,
+  // perhaps by querying a database. For now, we'll simulate it.
+  const nextId = await getNextSequentialNumber();
+
+  const sequentialId = nextId.toString().padStart(3, '0');
+  const aetherId = `AID-${year}-${sequentialId}`;
+
+  // Here you would typically save the user details and the new ID to your database.
+  console.log(`Generated Aether ID ${aetherId} for ${input.fullName} (${input.email})`);
+
+  return { aetherId };
 }
-
-const generateAetherIdFlow = ai.defineFlow(
-  {
-    name: 'generateAetherIdFlow',
-    inputSchema: GenerateAetherIdInputSchema,
-    outputSchema: GenerateAetherIdOutputSchema,
-  },
-  async (input) => {
-    const year = new Date().getFullYear();
-    
-    // In a real application, you'd want to ensure this number is unique,
-    // perhaps by querying a database. For now, we'll simulate it.
-    const nextId = await getNextSequentialNumber();
-
-    const sequentialId = nextId.toString().padStart(3, '0');
-    const aetherId = `AID-${year}-${sequentialId}`;
-
-    // Here you would typically save the user details and the new ID to your database.
-    console.log(`Generated Aether ID ${aetherId} for ${input.fullName} (${input.email})`);
-
-    return { aetherId };
-  }
-);
