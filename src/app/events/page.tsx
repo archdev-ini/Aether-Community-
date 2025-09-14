@@ -68,7 +68,7 @@ export default async function EventsPage() {
         <section id="events" className="py-24 sm:py-32">
           <div className="container mx-auto max-w-7xl px-4 md:px-6">
             <div className="mx-auto max-w-4xl text-center">
-              <h2 className="font-sans text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
+              <h2 className="font-sans text-4xl font-bold tracking-tighter sm:text-5xl lg:text-6xl">
                 Events
               </h2>
               <p className="mt-6 text-lg text-foreground/70 md:text-xl">

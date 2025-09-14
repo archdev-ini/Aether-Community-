@@ -394,7 +394,7 @@ export default function JoinPage() {
               exit={{ x: -300, opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <CardHeader className="text-center">
+              <CardHeader className="text-center px-4 sm:px-6">
                 <CardTitle className="font-sans text-3xl font-bold tracking-tight">
                   {steps[currentStep].title}
                 </CardTitle>
@@ -402,9 +402,9 @@ export default function JoinPage() {
                   {steps[currentStep].description}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="px-8 pb-8">
+              <CardContent className="px-4 sm:px-8 pb-8">
                 <form onSubmit={handleSubmit}>
-                    <div className="min-h-[200px]">
+                    <div className="min-h-[250px]">
                         {renderStep()}
                     </div>
                     <div className="mt-8 flex justify-between">
@@ -435,5 +435,3 @@ export default function JoinPage() {
     </div>
   );
 }
-
-    

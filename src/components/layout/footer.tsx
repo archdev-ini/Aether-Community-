@@ -6,9 +6,9 @@ export default function Footer() {
   return (
     <footer className="bg-background">
       <div className="border-t">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-6 px-4 py-8 sm:flex-row md:px-6">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-6 px-4 py-8 text-center sm:flex-row md:px-6">
           <Logo />
-          <p className="text-sm text-foreground/60">
+          <p className="text-sm text-foreground/60 order-last sm:order-none">
             © {new Date().getFullYear()} Aether. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
