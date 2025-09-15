@@ -17,9 +17,9 @@ const space_grotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: 'Aether',
+  title: 'Aether | The Creative Ecosystem for Africa\'s Architects & Designers',
   description:
-    'The Creative Ecosystem for Architects & Designers. From students to young professionals, AETHER is the space where Africa’s architects and designers learn, connect, and build the future.',
+    'From students to young professionals, AETHER is the space where Africa’s architects and designers learn, connect, and build the future.',
 }
 
 export default function RootLayout({
