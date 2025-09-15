@@ -1,6 +1,6 @@
 'use server';
 
-import Airtable, { FieldSet, Records } from 'airtable';
+import Airtable, { Attachment, FieldSet, Records } from 'airtable';
 
 function getAirtableBase() {
   const apiKey = process.env.AIRTABLE_API_KEY;
@@ -24,18 +24,28 @@ export const getEventsTable = async (filter?: string): Promise<Records<FieldSet>
     filterFormula = `{Category} = "${filter}"`;
   }
   
-  return base('Events').select({
-    view: 'Grid view',
-    sort: [{ field: 'Date', direction: 'desc' }],
-    filterByFormula: filterFormula,
-  }).all();
+  try {
+    return await base('Events').select({
+      view: 'Grid view',
+      sort: [{ field: 'Date', direction: 'desc' }],
+      filterByFormula: filterFormula,
+    }).all();
+  } catch (error) {
+    console.error('Failed to fetch events from Airtable:', error);
+    return [];
+  }
 };
 
 export const findEventByRecordId = async (recordId: string): Promise<FieldSet | null> => {
   const base = getAirtableBase();
   if (!base) return null;
   
-  return base('Events').find(recordId);
+  try {
+    return await base('Events').find(recordId);
+  } catch (error) {
+    console.error(`Failed to fetch event with id ${recordId}:`, error);
+    return null;
+  }
 }
 
 export type NewMember = {
@@ -53,9 +63,43 @@ export const createMember = async (memberData: NewMember): Promise<void> => {
     const base = getAirtableBase();
     if (!base) return;
 
-    await base('Members').create([
-        {
-            fields: memberData,
-        },
-    ]);
+    try {
+        await base('Members').create([
+            {
+                fields: memberData,
+            },
+        ]);
+    } catch (error) {
+        console.error('Failed to create member in Airtable:', error);
+        throw new Error('Airtable API error.');
+    }
 };
+
+export type NewEvent = {
+    Title: string;
+    Description: string;
+    Date: string; // YYYY-MM-DD
+    Time: string;
+    Location: string;
+    Category: string;
+    Status: 'Upcoming' | 'Past';
+    Image?: Attachment[];
+    RegistrationURL?: string;
+    EventCode?: string;
+}
+
+export const createEvent = async (eventData: NewEvent): Promise<void> => {
+    const base = getAirtableBase();
+    if (!base) return;
+
+    try {
+        await base('Events').create([
+            {
+                fields: eventData,
+            },
+        ]);
+    } catch (error) {
+        console.error('Failed to create event in Airtable:', error);
+        throw new Error('Airtable API error.');
+    }
+}

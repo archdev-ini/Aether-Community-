@@ -30,6 +30,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  env: {
+    NEXT_PUBLIC_ADD_EVENT_SECRET_KEY: process.env.ADD_EVENT_SECRET_KEY,
+  },
 };
 
 export default nextConfig;
