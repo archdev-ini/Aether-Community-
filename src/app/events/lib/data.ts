@@ -1,8 +1,9 @@
+
 'use server';
 
 import { FieldSet } from 'airtable';
 import { getEventsTable, findEventByRecordId } from '@/lib/airtable';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 export type Event = {
     id: string;
@@ -20,12 +21,9 @@ export type Event = {
 
 // Helper to format an Airtable record into our Event type
 const formatEvent = (record: FieldSet): Event => {
-    // Airtable returns dates as ISO strings in UTC. We treat the date as a UTC date to avoid timezone issues.
-    const eventDateUTC = new Date(record.Date as string + 'T00:00:00Z');
-    
-    // Get today's date at midnight UTC for a clean comparison.
-    const today = new Date();
-    const todayUTC = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+    // Airtable returns the date as an ISO string (e.g., '2024-10-28'). 
+    // We parse it as such, which treats it as UTC.
+    const eventDate = parseISO(record.Date as string);
 
     // The 'Image' field from Airtable is an array of attachment objects
     const imageAttachment = (record.Image as any[])?.[0];
@@ -36,12 +34,13 @@ const formatEvent = (record: FieldSet): Event => {
         title: record.Title as string,
         description: record.Description as string,
         // Format the date to be more readable, e.g., "October 28, 2024"
-        date: format(eventDateUTC, 'MMMM d, yyyy'),
+        // We can format it directly since it's already in UTC.
+        date: format(eventDate, 'MMMM d, yyyy', { timeZone: 'UTC' }),
         time: record.Time as string,
         location: record.Location as string,
         imageUrl: imageUrl,
-        // Determine status by comparing event date with today's date
-        status: record.Status as 'Upcoming' | 'Past', // Rely on Airtable status
+        // The status is now set reliably in Airtable, so we just use it directly.
+        status: record.Status as 'Upcoming' | 'Past',
         registrationUrl: record.RegistrationURL as string,
         category: record.Category as string,
         eventCode: record.EventCode as string,

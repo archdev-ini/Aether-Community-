@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Suspense } from 'react';
@@ -72,21 +73,22 @@ function AddEventForm() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsSubmitting(true);
     try {
-      // The date from the input is treated as UTC. To compare it with today's date
-      // correctly, we need to ensure we are comparing date parts only, without timezone interference.
-      const eventDateUTC = new Date(data.date + 'T00:00:00Z');
+      // The date from the input is a string like "YYYY-MM-DD".
+      // It's treated as UTC midnight.
+      const eventDate = new Date(data.date + 'T00:00:00Z');
+
       const today = new Date();
-      // Get today's date in UTC
+      // Get today's date at midnight UTC for a clean comparison.
       const todayUTC = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
 
       const newEvent: NewEvent = {
         Title: data.title,
-        Date: data.date, // Format YYYY-MM-DD
+        Date: data.date, // Send date as YYYY-MM-DD string to Airtable
         Time: data.time,
         Location: data.location,
         Category: data.category,
         Description: data.description,
-        Status: eventDateUTC >= todayUTC ? 'Upcoming' : 'Past',
+        Status: eventDate >= todayUTC ? 'Upcoming' : 'Past',
         RegistrationURL: data.registrationUrl,
       };
 
