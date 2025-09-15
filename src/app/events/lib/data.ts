@@ -33,7 +33,7 @@ const formatEvent = (record: FieldSet): Event => {
         title: record.Title as string,
         description: record.Description as string,
         // Format the date to be more readable, e.g., "October 28, 2024"
-        date: format(parseISO(eventDateStr), 'MMMM d, yyyy'),
+        date: eventDateStr ? format(parseISO(eventDateStr), 'MMMM d, yyyy') : 'Date not set',
         time: record.Time as string,
         location: record.Location as string,
         imageUrl: imageUrl,

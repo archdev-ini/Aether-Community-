@@ -125,38 +125,40 @@ export default function EventsContent({ initialEvents }: { initialEvents: Event[
             </Select>
             </div>
         </div>
+        
+        {events.length > 0 ? (
+          <>
+            {upcomingEvents.length > 0 && (
+                <div className="mt-20">
+                <h3 className="font-sans text-3xl font-bold tracking-tighter md:text-4xl mb-12 text-center">
+                    Upcoming Events
+                </h3>
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
+                    {upcomingEvents.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                    ))}
+                </div>
+                </div>
+            )}
 
-        {upcomingEvents.length > 0 && (
-            <div className="mt-20">
-            <h3 className="font-sans text-3xl font-bold tracking-tighter md:text-4xl mb-12 text-center">
-                Upcoming Events
-            </h3>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
-                {upcomingEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-                ))}
-            </div>
-            </div>
-        )}
-
-        {pastEvents.length > 0 && (
-            <div className="mt-20">
-            <h3 className="font-sans text-3xl font-bold tracking-tighter md:text-4xl mb-12 text-center">
-                Past Events
-            </h3>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
-                {pastEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-                ))}
-            </div>
-            </div>
-        )}
-
-        {events.length === 0 && (
+            {pastEvents.length > 0 && (
+                <div className="mt-20">
+                <h3 className="font-sans text-3xl font-bold tracking-tighter md:text-4xl mb-12 text-center">
+                    Past Events
+                </h3>
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
+                    {pastEvents.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                    ))}
+                </div>
+                </div>
+            )}
+          </>
+        ) : (
             <div className="mt-20 text-center">
-            <p className="text-lg text-foreground/70">
-                No events found for this category. Please check back later!
-            </p>
+                <p className="text-lg text-foreground/70">
+                    No events found for this category. Please check back later!
+                </p>
             </div>
         )}
     </>
