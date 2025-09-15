@@ -49,7 +49,8 @@ const formatEvent = (record: FieldSet): Event => {
 
 export async function fetchEvents(category?: string): Promise<Event[]> {
   try {
-    const records = await getEventsTable(category);
+    const effectiveCategory = category === 'All' ? undefined : category;
+    const records = await getEventsTable(effectiveCategory);
     if (!records) return [];
     const events = records.map(formatEvent);
     return events;

@@ -14,22 +14,23 @@ function getAirtableBase() {
   return new Airtable({ apiKey }).base(baseId);
 }
 
-export const getEventsTable = async (filter?: string): Promise<Records<FieldSet>> => {
+export const getEventsTable = async (category?: string): Promise<Records<FieldSet>> => {
   const base = getAirtableBase();
   if (!base) return [];
 
   let filterFormula = '';
 
-  if (filter && filter !== 'All') {
-    filterFormula = `{Category} = "${filter}"`;
+  if (category && category !== 'All') {
+    filterFormula = `{Category} = "${category}"`;
   }
   
   try {
-    return await base('Events').select({
+    const records = await base('Events').select({
       view: 'Grid view',
       sort: [{ field: 'Date', direction: 'desc' }],
       filterByFormula: filterFormula,
     }).all();
+    return records;
   } catch (error) {
     console.error('Failed to fetch events from Airtable:', error);
     return [];
