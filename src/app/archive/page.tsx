@@ -2,7 +2,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Construction } from 'lucide-react';
+import { ArrowRight, Construction } from 'lucide-react';
 
 export default function ArchiveComingSoonPage() {
   return (
@@ -16,10 +16,15 @@ export default function ArchiveComingSoonPage() {
               Coming Soon
             </h2>
             <p className="mt-6 text-lg text-foreground/70 md:text-xl">
-              The Open Knowledge Archive is under construction. We're busy curating a rich collection of African design, research, and case studies. Check back soon!
+              The Open Knowledge Archive is under construction. We're busy curating a rich collection of African design, research, and case studies. Join our Telegram channel for updates and sneak peeks!
             </p>
             <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button asChild size="lg">
+                <Button asChild size="lg" className="group">
+                    <Link href="https://t.me/archivault_official" target="_blank">
+                        Join the Archive Channel <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                </Button>
+                <Button asChild size="lg" variant="secondary">
                     <Link href="/">Return Home</Link>
                 </Button>
             </div>
