@@ -21,7 +21,7 @@
     {
       "id": "archive-image",
       "description": "Image of a modern library for the Archive section.",
-      "imageUrl": "https://picsum.photos/seed/4/600/800",
+      "imageUrl": "https://picsum.photos/seed/library/800/1000",
       "imageHint": "modern library"
     }
   ]
