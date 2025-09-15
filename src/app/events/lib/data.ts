@@ -20,12 +20,13 @@ export type Event = {
 
 // Helper to format an Airtable record into our Event type
 const formatEvent = (record: FieldSet): Event => {
-    const eventDate = new Date(record.Date as string);
-    const now = new Date();
-    // Set time to 00:00:00 to compare dates only
-    eventDate.setHours(0,0,0,0);
-    now.setHours(0,0,0,0);
+    // Airtable returns dates as ISO strings in UTC. We treat the date as a UTC date to avoid timezone issues.
+    const eventDateUTC = new Date(record.Date as string + 'T00:00:00Z');
     
+    // Get today's date at midnight UTC for a clean comparison.
+    const today = new Date();
+    const todayUTC = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+
     // The 'Image' field from Airtable is an array of attachment objects
     const imageAttachment = (record.Image as any[])?.[0];
     const imageUrl = imageAttachment?.url || 'https://placehold.co/1200x600';
@@ -35,12 +36,12 @@ const formatEvent = (record: FieldSet): Event => {
         title: record.Title as string,
         description: record.Description as string,
         // Format the date to be more readable, e.g., "October 28, 2024"
-        date: format(new Date(record.Date as string), 'MMMM d, yyyy'),
+        date: format(eventDateUTC, 'MMMM d, yyyy'),
         time: record.Time as string,
         location: record.Location as string,
         imageUrl: imageUrl,
         // Determine status by comparing event date with today's date
-        status: eventDate >= now ? 'Upcoming' : 'Past',
+        status: record.Status as 'Upcoming' | 'Past', // Rely on Airtable status
         registrationUrl: record.RegistrationURL as string,
         category: record.Category as string,
         eventCode: record.EventCode as string,

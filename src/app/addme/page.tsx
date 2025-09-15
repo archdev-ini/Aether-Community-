@@ -72,11 +72,13 @@ function AddEventForm() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsSubmitting(true);
     try {
-      const eventDate = new Date(data.date);
-      const now = new Date();
-      eventDate.setHours(0,0,0,0);
-      now.setHours(0,0,0,0);
-      
+      // The date from the input is treated as UTC. To compare it with today's date
+      // correctly, we need to ensure we are comparing date parts only, without timezone interference.
+      const eventDateUTC = new Date(data.date + 'T00:00:00Z');
+      const today = new Date();
+      // Get today's date in UTC
+      const todayUTC = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+
       const newEvent: NewEvent = {
         Title: data.title,
         Date: data.date, // Format YYYY-MM-DD
@@ -84,7 +86,7 @@ function AddEventForm() {
         Location: data.location,
         Category: data.category,
         Description: data.description,
-        Status: eventDate >= now ? 'Upcoming' : 'Past',
+        Status: eventDateUTC >= todayUTC ? 'Upcoming' : 'Past',
         RegistrationURL: data.registrationUrl,
       };
 
