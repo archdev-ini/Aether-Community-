@@ -22,8 +22,7 @@ export type Event = {
 // Helper to format an Airtable record into our Event type
 const formatEvent = (record: FieldSet): Event => {
     // Airtable returns the date as an ISO string (e.g., '2024-10-28'). 
-    // We parse it as such, which treats it as UTC.
-    const eventDate = parseISO(record.Date as string);
+    const eventDateStr = record.Date as string;
 
     // The 'Image' field from Airtable is an array of attachment objects
     const imageAttachment = (record.Image as any[])?.[0];
@@ -34,8 +33,7 @@ const formatEvent = (record: FieldSet): Event => {
         title: record.Title as string,
         description: record.Description as string,
         // Format the date to be more readable, e.g., "October 28, 2024"
-        // We can format it directly since it's already in UTC.
-        date: format(eventDate, 'MMMM d, yyyy', { timeZone: 'UTC' }),
+        date: format(parseISO(eventDateStr), 'MMMM d, yyyy'),
         time: record.Time as string,
         location: record.Location as string,
         imageUrl: imageUrl,
