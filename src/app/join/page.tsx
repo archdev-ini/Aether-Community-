@@ -15,6 +15,9 @@ import {
   Map,
   Check,
   Loader2,
+  Link as LinkIcon,
+  HelpCircle,
+  School,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -30,129 +33,139 @@ import { Progress } from '@/components/ui/progress';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import Logo from '@/components/logo';
 import Link from 'next/link';
 import Footer from '@/components/layout/footer';
 import { cn } from '@/lib/utils';
-import { generateAetherId } from '@/ai/flows/generate-aether-id';
 import { useToast } from '@/hooks/use-toast';
-import { createMember } from '@/lib/airtable';
+import { createMember } from '@/lib/supabase-queries';
 
 const steps = [
   {
     id: 1,
-    title: 'Welcome to AETHER',
-    description:
-      'You’re about to enter AETHER — the creative ecosystem for architects and designers. Let’s start with your basic details.',
+    title: 'Personal Info',
+    description: 'Tell us who you are.',
     fields: [
       { name: 'fullName', label: 'Full Name', icon: User, type: 'text' },
       { name: 'email', label: 'Email Address', icon: Mail, type: 'email' },
-      { name: 'location', label: 'Country / City', icon: Map, type: 'text' },
+      { name: 'school_university', label: 'School / University', icon: School, type: 'text' },
     ],
   },
   {
     id: 2,
-    title: 'Your Journey',
-    description: 'Where are you right now in your design/architecture journey?',
+    title: 'Background & Interests',
+    description: 'Your interests help us match you with mentors.',
   },
   {
     id: 3,
-    title: 'Your Interests',
-    description: 'What excites you most about joining AETHER?',
-  },
-  {
-    id: 4,
-    title: 'Contribution',
-    description: 'Community is built by contribution. How would you like to plug in?',
-  },
-  {
-    id: 5,
-    title: 'Review & Submit',
-    description: 'Please review your application details before submitting.',
+    title: 'Portfolio & Referral',
+    description: 'Share your portfolio and get ready to grow.',
   },
 ];
 
-const journeyOptions = [
-  { value: 'student', label: 'Architecture Student', icon: GraduationCap },
-  { value: 'professional', label: 'Young Professional', icon: Building },
-  { value: 'architect', label: 'Practicing Architect', icon: DraftingCompass },
-  { value: 'designer', label: 'Designer', icon: Paintbrush },
-  { value: 'enthusiast', label: 'Enthusiast / Researcher', icon: BookOpen },
+const levelOfStudyOptions = [
+  { value: 'Undergraduate', label: 'Undergraduate' },
+  { value: 'Graduate', label: 'Graduate' },
+  { value: 'Recent Graduate', label: 'Recent Graduate' },
+  { value: 'Other', label: 'Other' },
 ];
 
 const interestOptions = [
-  'Design Education & Mentorship',
-  'Software & Skill Building',
-  'Research & Publications',
-  'African Design Heritage',
-  'Networking & Collaboration',
-  'Career Growth & Opportunities',
-  'Sustainability & Innovation',
+  'Mentorship',
+  'Skill Workshops (BIM, Revit, etc.)',
+  'Design Challenges & Competitions',
+  'Mental Wellness & Support',
+  'Collaboration & Team Projects',
+  'Innovation & Research',
 ];
 
-const contributionOptions = [
-  { value: 'share', label: 'Share knowledge / Write articles ✍️' },
-  { value: 'volunteer', label: 'Volunteer for events 🤝' },
-  { value: 'host', label: 'Host workshops / conversations 🎤' },
-  { value: 'mentor', label: 'Mentor others 🌱' },
-  { value: 'learn', label: 'Just here to learn & connect 👀' },
+const referralOptions = [
+  'Social Media',
+  'Friend',
+  'School',
+  'Event',
+  'Other',
 ];
 
 type FormData = {
   fullName: string;
   email: string;
-  location: string;
-  journey: string;
-  experience: string;
+  school_university: string;
+  level_of_study: string;
   interests: string[];
-  contributions: string[];
-  agree: boolean;
+  portfolio_url: string;
+  referral_source: string;
+  newsletter_opt_in: boolean;
 };
 
-const MultiSelectItem = ({
-  value,
-  label,
-  isSelected,
-  onToggle,
-}: {
-  value: string;
-  label: string;
-  isSelected: boolean;
-  onToggle: (value: string) => void;
-}) => (
-  <Label
-    htmlFor={value}
-    className={cn(
-      'flex w-full cursor-pointer items-center rounded-lg border p-4 text-left transition-all',
-      isSelected ? 'border-primary bg-accent' : 'bg-secondary hover:bg-secondary/80'
-    )}
-  >
-    <Checkbox
-      id={value}
-      checked={isSelected}
-      onCheckedChange={() => onToggle(value)}
-      className="mr-4 h-5 w-5 rounded-md"
-    />
-    {label}
-  </Label>
-);
+
+
+// ... existing imports
 
 export default function JoinPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
-    location: '',
-    journey: '',
-    experience: '',
+    school_university: '',
+    level_of_study: '',
     interests: [],
-    contributions: [],
-    agree: false,
+    portfolio_url: '',
+    referral_source: '',
+    newsletter_opt_in: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [generatedAetherId, setGeneratedAetherId] = useState<string>('');
   const { toast } = useToast();
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const result = await createMember({
+        full_name: formData.fullName,
+        email: formData.email,
+        school_university: formData.school_university,
+        level_of_study: formData.level_of_study,
+        interests: formData.interests.join(', '),
+        portfolio_url: formData.portfolio_url,
+        referral_source: formData.referral_source,
+        newsletter_opt_in: formData.newsletter_opt_in,
+        location: '',
+        journey: '',
+        experience: '',
+        contributions: '',
+      });
+
+      if (result.success && result.aetherId) {
+        setGeneratedAetherId(result.aetherId);
+        setIsSubmitted(true);
+      } else {
+        toast({
+          title: 'Error',
+          description: result.error || 'Something went wrong. Please try again.',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -165,7 +178,7 @@ export default function JoinPage() {
       setCurrentStep(currentStep - 1);
     }
   };
-  
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -180,49 +193,6 @@ export default function JoinPage() {
       return { ...prev, [group]: newValues };
     });
   };
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      // 1. Generate Aether ID
-      const { aetherId } = await generateAetherId({
-        fullName: formData.fullName,
-        email: formData.email,
-      });
-
-      // 2. Prepare data for Airtable
-      await createMember({
-        AetherID: aetherId,
-        FullName: formData.fullName,
-        Email: formData.email,
-        Location: formData.location,
-        Journey: getJourneyLabel(formData.journey),
-        Experience: formData.experience,
-        Interests: formData.interests.join(', '),
-        Contributions: formData.contributions.map(getContributionLabel).join(', '),
-      });
-      
-      setIsSubmitted(true);
-    } catch (error) {
-        console.error('Failed to submit application:', error);
-        toast({
-            title: "Submission Failed",
-            description: "There was an error submitting your application. Please try again.",
-            variant: "destructive",
-        })
-    } finally {
-        setIsSubmitting(false);
-    }
-  };
-  
-  const getJourneyLabel = (value: string) => {
-    return journeyOptions.find(j => j.value === value)?.label || '';
-  }
-
-  const getContributionLabel = (value: string) => {
-    return contributionOptions.find(c => c.value === value)?.label || '';
-  }
 
   const renderStep = () => {
     const step = steps[currentStep];
@@ -230,17 +200,17 @@ export default function JoinPage() {
       case 0:
         return (
           <div className="space-y-6">
-            {step.fields.map((field) => (
+            {step.fields?.map((field) => (
               <div key={field.name} className="relative">
                 <field.icon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   name={field.name}
                   type={field.type}
                   placeholder={field.label}
-                  value={formData[field.name as keyof Omit<FormData, 'interests' | 'contributions' | 'agree'>]}
+                  value={formData[field.name as keyof FormData] as string}
                   onChange={handleInputChange}
                   className="pl-10"
-                  required
+                  required={field.name !== 'portfolio_url'}
                 />
               </div>
             ))}
@@ -249,109 +219,98 @@ export default function JoinPage() {
       case 1:
         return (
           <div className="space-y-6">
-             <RadioGroup
-              value={formData.journey}
-              onValueChange={(value) => setFormData((prev) => ({ ...prev, journey: value }))}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
-              {journeyOptions.map((option) => (
-                <Label
-                  key={option.value}
-                  htmlFor={option.value}
-                  className={`flex items-center gap-4 rounded-lg border p-4 transition-all cursor-pointer hover:bg-accent ${formData.journey === option.value ? 'bg-accent border-primary' : ''}`}
-                >
-                  <option.icon className="h-8 w-8 text-primary" />
-                  <div className="flex-1">
-                    <RadioGroupItem value={option.value} id={option.value} className="sr-only" />
-                    <span className="font-semibold">{option.label}</span>
-                  </div>
-                </Label>
-              ))}
-            </RadioGroup>
-            <Input
-              name="experience"
-              placeholder="Year of Study / Years of Experience"
-              value={formData.experience}
-              onChange={handleInputChange}
-            />
+            <div className="space-y-2">
+              <Label>Level of Study</Label>
+              <Select
+                value={formData.level_of_study}
+                onValueChange={(value) => setFormData((prev) => ({ ...prev, level_of_study: value }))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select your level of study" />
+                </SelectTrigger>
+                <SelectContent>
+                  {levelOfStudyOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-3">
+              <Label>Primary Interests</Label>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {interestOptions.map((interest) => (
+                  <Label
+                    key={interest}
+                    htmlFor={interest}
+                    className={cn(
+                      'flex cursor-pointer items-center rounded-lg border p-4 transition-all hover:bg-accent',
+                      formData.interests.includes(interest) ? 'border-primary bg-accent' : 'bg-card'
+                    )}
+                  >
+                    <Checkbox
+                      id={interest}
+                      checked={formData.interests.includes(interest)}
+                      onCheckedChange={() => handleMultiSelectChange('interests', interest)}
+                      className="mr-3"
+                    />
+                    <span className="text-sm font-medium">{interest}</span>
+                  </Label>
+                ))}
+              </div>
+            </div>
           </div>
         );
       case 2:
         return (
-          <div className="flex flex-wrap gap-3">
-            {interestOptions.map((interest) => (
-              <Label
-                key={interest}
-                htmlFor={interest}
-                className={cn(
-                  'cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition-colors',
-                  formData.interests.includes(interest)
-                    ? 'border-transparent bg-primary text-primary-foreground'
-                    : 'bg-secondary hover:bg-secondary/80'
-                )}
-              >
-                <Checkbox
-                  id={interest}
-                  checked={formData.interests.includes(interest)}
-                  onCheckedChange={() => handleMultiSelectChange('interests', interest)}
-                  className="sr-only"
-                />
-                {interest}
-              </Label>
-            ))}
-          </div>
-        );
-      case 3:
-        return (
-          <div className="space-y-3">
-            {contributionOptions.map((option) => (
-              <MultiSelectItem
-                key={option.value}
-                value={option.value}
-                label={option.label}
-                isSelected={formData.contributions.includes(option.value)}
-                onToggle={() => handleMultiSelectChange('contributions', option.value)}
+          <div className="space-y-6">
+            <div className="relative">
+              <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                name="portfolio_url"
+                placeholder="Portfolio / Website (Optional)"
+                value={formData.portfolio_url}
+                onChange={handleInputChange}
+                className="pl-10"
               />
-            ))}
+            </div>
+
+            <div className="space-y-2">
+              <Label>How Did You Hear About Us?</Label>
+              <Select
+                value={formData.referral_source}
+                onValueChange={(value) => setFormData((prev) => ({ ...prev, referral_source: value }))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select an option" />
+                </SelectTrigger>
+                <SelectContent>
+                  {referralOptions.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-start space-x-2 pt-4">
+              <Checkbox
+                id="newsletter"
+                checked={formData.newsletter_opt_in}
+                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, newsletter_opt_in: !!checked }))}
+              />
+              <label
+                htmlFor="newsletter"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                I’d like to receive updates, challenges, and workshops
+              </label>
+            </div>
           </div>
         );
-    case 4:
-      return (
-        <div className="space-y-6 text-sm">
-            <div className="space-y-4 rounded-lg border p-4">
-                <h4 className="font-semibold">Basic Details</h4>
-                <p><strong>Full Name:</strong> {formData.fullName}</p>
-                <p><strong>Email:</strong> {formData.email}</p>
-                <p><strong>Location:</strong> {formData.location}</p>
-            </div>
-             <div className="space-y-2 rounded-lg border p-4">
-                <h4 className="font-semibold">Your Journey</h4>
-                <p><strong>Role:</strong> {getJourneyLabel(formData.journey)}</p>
-                <p><strong>Experience:</strong> {formData.experience}</p>
-            </div>
-            <div className="space-y-2 rounded-lg border p-4">
-                <h4 className="font-semibold">Interests</h4>
-                <ul className="list-disc list-inside">
-                  {formData.interests.map(interest => <li key={interest}>{interest}</li>)}
-                </ul>
-            </div>
-            <div className="space-y-2 rounded-lg border p-4">
-                <h4 className="font-semibold">Contributions</h4>
-                 <ul className="list-disc list-inside">
-                  {formData.contributions.map(c => <li key={c}>{getContributionLabel(c)}</li>)}
-                </ul>
-            </div>
-            <div className="flex items-center space-x-2 pt-4">
-                <Checkbox id="agree" checked={formData.agree} onCheckedChange={(checked) => setFormData(prev => ({...prev, agree: !!checked}))} />
-                <label
-                    htmlFor="agree"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                   I agree to AETHER’s community guidelines.
-                </label>
-            </div>
-        </div>
-      );
       default:
         return null;
     }
@@ -359,60 +318,70 @@ export default function JoinPage() {
 
   if (isSubmitted) {
     return (
-        <div className="flex min-h-screen flex-col bg-background">
-            <header className="fixed top-0 z-50 w-full bg-transparent">
-                <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
-                    <Link href="/">
-                    <Logo />
-                    </Link>
+      <div className="flex min-h-screen flex-col bg-background">
+        <header className="fixed top-0 z-50 w-full bg-transparent">
+          <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
+            <Link href="/">
+              <Logo />
+            </Link>
+          </div>
+        </header>
+        <main className="flex flex-1 items-center justify-center p-4 py-24">
+          <div className="w-full max-w-4xl grid gap-8 md:grid-cols-2 items-center">
+            <Card className="w-full text-center shadow-2xl h-full flex flex-col justify-center">
+              <CardContent className="p-8 md:p-12">
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.2, type: 'spring', stiffness: 260, damping: 20 }}
+                  className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/50"
+                >
+                  <Check className="h-10 w-10 text-green-600 dark:text-green-400" strokeWidth={3} />
+                </motion.div>
+                <h2 className="text-3xl font-bold tracking-tight text-primary">Welcome to Aether! 🎉</h2>
+                <p className="mt-4 text-lg text-foreground/80">
+                  You are now an official member. Your digital ID has been generated.
+                </p>
+
+                <div className="mt-8 text-left space-y-2">
+                  <h3 className="font-semibold">Next Steps:</h3>
+                  <ul className="list-disc list-inside text-foreground/70 text-sm">
+                    <li>Save your Aether ID (shown on the card).</li>
+                    <li>Check your email for the welcome package.</li>
+                    <li>Join the community chat to introduce yourself.</li>
+                  </ul>
                 </div>
-            </header>
-            <main className="flex flex-1 items-center justify-center p-4">
-                <Card className="w-full max-w-2xl text-center shadow-2xl">
-                    <CardContent className="p-8 md:p-12">
-                        <motion.div
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ delay: 0.2, type: 'spring', stiffness: 260, damping: 20 }}
-                            className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/50"
-                        >
-                            <Check className="h-10 w-10 text-green-600 dark:text-green-400" strokeWidth={3} />
-                        </motion.div>
-                        <h2 className="text-3xl font-bold tracking-tight text-primary">Application Received!</h2>
-                        <p className="mt-4 text-lg text-foreground/80">
-                            Thanks, {formData.fullName.split(' ')[0]}. You’re officially in the pipeline.
-                        </p>
-                        <div className="mt-8 rounded-lg bg-secondary p-6">
-                            <p className="text-base text-foreground/70">
-                                Your Aether ID is being generated and will be sent to your email soon. This ID is your unique access key into AETHER — connecting you to events, archives, and conversations across Africa’s creative ecosystem.
-                            </p>
-                        </div>
-                        <div className="mt-8 text-left">
-                            <h3 className="font-semibold">What's next?</h3>
-                            <ul className="mt-2 list-disc list-inside text-foreground/70">
-                                <li>Check your email soon for your Aether ID.</li>
-                                <li>While you wait, join our socials and explore what’s coming up.</li>
-                            </ul>
-                        </div>
-                         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                            <Button asChild size="lg">
-                                <Link href="https://chat.whatsapp.com/Bvwdx1p9h5G9goxokoDDhl?mode=ems_copy_c" target="_blank">Join Community Chat</Link>
-                            </Button>
-                            <Button asChild variant="secondary" size="lg">
-                                <Link href="/events">Explore Events</Link>
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            </main>
-            <Footer />
-        </div>
+
+                <div className="mt-10 flex flex-col gap-4">
+                  <Button asChild size="lg" className="w-full">
+                    <Link href="https://chat.whatsapp.com/Bvwdx1p9h5G9goxokoDDhl?mode=ems_copy_c" target="_blank">Join Community Chat</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="w-full">
+                    <Link href="/">Return Home</Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="flex flex-col items-center justify-center space-y-6">
+              <div className="text-center md:text-left w-full">
+                <h3 className="text-xl font-bold mb-2">Membership Confirmed</h3>
+                <p className="text-muted-foreground text-sm">
+                  Your Aether ID is <span className="font-mono font-bold text-primary">{generatedAetherId}</span>.
+                  Keep this for your records.
+                </p>
+              </div>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
     )
   }
 
   return (
     <div className="flex min-h-screen flex-col bg-background font-body">
-       <header className="fixed top-0 z-50 w-full bg-transparent">
+      <header className="fixed top-0 z-50 w-full bg-transparent">
         <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
           <Link href="/">
             <Logo />
@@ -421,13 +390,19 @@ export default function JoinPage() {
       </header>
       <main className="flex flex-1 items-center justify-center p-4 pt-20">
         <Card className="w-full max-w-2xl overflow-hidden shadow-2xl">
-          <div className="p-8">
-            <Progress value={((currentStep + 1) / steps.length) * 100} className="mb-4 h-2" />
-            <p className="text-center text-sm text-muted-foreground">
-              Step {currentStep + 1} of {steps.length}
-            </p>
+          <div className="p-8 text-center">
+            <h1 className="text-3xl font-bold tracking-tight">Join Aether – Step by Step</h1>
+            <p className="text-muted-foreground mt-2">Connect • Learn • Grow</p>
+            <div className="mt-6">
+              <Progress value={((currentStep + 1) / steps.length) * 100} className="h-2" />
+              <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+                <span>Step 1</span>
+                <span>Step 2</span>
+                <span>Step 3</span>
+              </div>
+            </div>
           </div>
-          
+
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
@@ -437,7 +412,7 @@ export default function JoinPage() {
               transition={{ duration: 0.3 }}
             >
               <CardHeader className="text-center px-4 sm:px-6">
-                <CardTitle className="font-sans text-3xl font-bold tracking-tight">
+                <CardTitle className="font-sans text-2xl font-bold tracking-tight">
                   {steps[currentStep].title}
                 </CardTitle>
                 <CardDescription className="text-base text-foreground/70">
@@ -446,27 +421,27 @@ export default function JoinPage() {
               </CardHeader>
               <CardContent className="px-4 sm:px-8 pb-8">
                 <form onSubmit={handleSubmit}>
-                    <div className="min-h-[250px]">
-                        {renderStep()}
-                    </div>
-                    <div className="mt-8 flex justify-between">
+                  <div className="min-h-[250px]">
+                    {renderStep()}
+                  </div>
+                  <div className="mt-8 flex justify-between">
                     {currentStep > 0 && (
-                        <Button type="button" variant="secondary" onClick={handleBack} disabled={isSubmitting}>
-                        Back
-                        </Button>
+                      <Button type="button" variant="secondary" onClick={handleBack} disabled={isSubmitting}>
+                        ← Back
+                      </Button>
                     )}
                     <div className="flex-grow" />
                     {currentStep < steps.length - 1 && (
-                        <Button type="button" onClick={handleNext}>
-                        Continue →
-                        </Button>
+                      <Button type="button" onClick={handleNext}>
+                        Next →
+                      </Button>
                     )}
                     {currentStep === steps.length - 1 && (
-                        <Button type="submit" disabled={!formData.agree || isSubmitting}>
-                         {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...</> : <><Send className="mr-2 h-4 w-4" /> Submit Application</>}
-                        </Button>
+                      <Button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...</> : 'Submit'}
+                      </Button>
                     )}
-                    </div>
+                  </div>
                 </form>
               </CardContent>
             </motion.div>
@@ -478,4 +453,3 @@ export default function JoinPage() {
   );
 }
 
-    

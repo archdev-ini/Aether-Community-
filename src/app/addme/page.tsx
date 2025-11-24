@@ -32,7 +32,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { eventCategories } from '@/app/events/lib/event-categories';
-import { createEvent, NewEvent } from '@/lib/airtable';
+import { createEvent } from '@/lib/supabase-queries';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { Loader2, Lock, ShieldCheck } from 'lucide-react';
@@ -81,24 +81,26 @@ function AddEventForm() {
       // Get today's date at midnight UTC for a clean comparison.
       const todayUTC = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
 
-      const newEvent: NewEvent = {
-        Title: data.title,
-        Date: data.date, // Send date as YYYY-MM-DD string to Airtable
-        Time: data.time,
-        Location: data.location,
-        Category: data.category,
-        Description: data.description,
-        Status: eventDate >= todayUTC ? 'Upcoming' : 'Past',
-        RegistrationURL: data.registrationUrl,
-      };
-
-      await createEvent(newEvent);
-      
-      toast({
-        title: 'Event Created!',
-        description: 'The new event has been successfully added to Airtable.',
+      const result = await createEvent({
+        title: data.title,
+        date: data.date, // Send date as YYYY-MM-DD string
+        time: data.time,
+        location: data.location,
+        category: data.category,
+        description: data.description,
+        status: eventDate >= todayUTC ? 'Upcoming' : 'Past',
+        registration_url: data.registrationUrl || undefined,
       });
-      form.reset();
+
+      if (result.success) {
+        toast({
+          title: 'Event Created!',
+          description: 'The new event has been successfully added to Supabase.',
+        });
+        form.reset();
+      } else {
+        throw new Error(result.error || 'Failed to create event');
+      }
     } catch (error) {
       console.error('Failed to create event:', error);
       toast({
@@ -248,7 +250,7 @@ function AddEventForm() {
 
 function AccessDenied() {
   return (
-     <Card className="w-full max-w-md text-center">
+    <Card className="w-full max-w-md text-center">
       <CardHeader>
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
           <Lock className="h-8 w-8 text-destructive" />
@@ -282,7 +284,7 @@ function AddMeContent() {
       </div>
     );
   }
-  
+
   return isValid ? <AddEventForm /> : <AccessDenied />;
 }
 

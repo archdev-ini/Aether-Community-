@@ -37,9 +37,9 @@ export default function Header() {
   }, [])
 
   const headerClasses = cn(
-    'fixed top-0 z-50 w-full transition-all duration-300',
+    'fixed top-0 z-50 w-full transition-all duration-500',
     isScrolled
-      ? 'bg-background/80 shadow-sm backdrop-blur-xl'
+      ? 'bg-background/80 shadow-lg backdrop-blur-2xl border-b border-gradient-from/20'
       : 'bg-transparent'
   );
 
@@ -52,7 +52,7 @@ export default function Header() {
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/">
           <Logo
-            className={cn('dark:text-white', logoColorClass)}
+            className={cn('dark:text-white transition-colors duration-300', logoColorClass)}
           />
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
@@ -61,7 +61,7 @@ export default function Header() {
               key={link.href}
               href={link.href}
               className={cn(
-                'text-sm font-medium transition-colors hover:text-primary dark:hover:text-primary-foreground',
+                'text-sm font-medium transition-all duration-300 hover:text-gradient-from dark:hover:text-gradient-from relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-gradient-from after:to-gradient-via after:transition-all after:duration-300 hover:after:w-full',
                 isScrolled ? 'text-foreground/70' : 'text-white/80 dark:text-white/80'
               )}
             >
@@ -71,7 +71,7 @@ export default function Header() {
         </nav>
         <div className="hidden items-center gap-2 md:flex">
           <ThemeToggle />
-          <Button asChild>
+          <Button asChild className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to hover:shadow-glow transition-all duration-300 border-0">
             <Link href="/join">Join Community</Link>
           </Button>
         </div>
@@ -91,7 +91,7 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-full bg-background text-foreground"
+              className="w-full bg-background/95 backdrop-blur-2xl text-foreground"
             >
               <SheetHeader className="flex-row items-center justify-between space-y-0 border-b pb-4">
                 <SheetTitle>
@@ -99,7 +99,7 @@ export default function Header() {
                     <Logo />
                   </Link>
                 </SheetTitle>
-                 <Button
+                <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -114,7 +114,7 @@ export default function Header() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="text-2xl font-medium transition-colors hover:text-primary"
+                      className="text-2xl font-medium transition-all duration-300 hover:text-gradient-from hover:scale-105"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {link.label}
@@ -124,7 +124,7 @@ export default function Header() {
                 <Button
                   asChild
                   size="lg"
-                  className="mt-8 w-full"
+                  className="mt-8 w-full bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to hover:shadow-glow transition-all duration-300 border-0"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <Link href="/join">Join the Community</Link>

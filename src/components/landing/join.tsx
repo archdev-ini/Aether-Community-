@@ -4,19 +4,21 @@ import { ArrowRight } from 'lucide-react'
 
 export default function Join() {
   return (
-    <section id="join" className="bg-secondary/50">
-      <div className="container mx-auto max-w-7xl px-4 py-24 text-center md:px-6">
+    <section id="join" className="relative overflow-hidden bg-gradient-to-br from-secondary/40 via-background to-secondary/40">
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
+
+      <div className="container relative mx-auto max-w-7xl px-4 py-32 text-center md:px-6">
         <h2 className="font-sans text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
-          Be Part of What’s Next
+          Start Your Journey
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-foreground/70 md:text-xl">
-          Architecture in Africa is evolving. AETHER is the medium that makes
-          creativity flow. Don’t just watch the future — help design it.
+          Join Aether today and start your journey toward becoming a skilled, recognized, and resilient architect.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button asChild size="lg" className="group font-semibold">
-            <Link href="/join">
-              Join the Community Now <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+          <Button asChild size="lg" className="group font-semibold bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to hover:shadow-glow-lg transition-all duration-300 border-0 text-base px-8">
+            <Link href="https://discord.gg/your-discord-link" target="_blank">
+              Join the Community on Discord <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>

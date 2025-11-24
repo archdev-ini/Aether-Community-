@@ -40,35 +40,45 @@ export default function About() {
     <section id="about" className="container mx-auto px-4 py-24 sm:py-32 md:px-6">
       <div className="mx-auto max-w-4xl text-center">
         <h2 className="font-sans text-4xl font-bold tracking-tighter sm:text-5xl lg:text-6xl">
-          What is AETHER?
+          What is Aether?
         </h2>
         <p className="mt-6 text-lg text-foreground/70 md:text-xl">
-          AETHER is a creative ecosystem that empowers architects and designers
-          across Africa. Inspired by the idea of aether — the medium where light
-          and creativity flow — we provide the space between education,
-          practice, and innovation.
+          Aether is a holistic ecosystem designed to bridge architecture students to the industry. We combine mentorship, skill development, collaboration, and mental wellness—powered by technology and grounded in African culture and sustainability.
         </p>
       </div>
 
-      <div className="mt-20">
-        <h3 className="font-sans text-center text-3xl font-bold tracking-tighter md:text-4xl">
-          Our Pillars
-        </h3>
-        <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-          {pillars.map((pillar, index) => (
-            <Card
-              key={pillar.title}
-              className="transform-gpu rounded-xl border bg-card text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg dark:bg-card"
-              style={{ animation: `fadeInUp 0.5s ease-out ${index * 100}ms forwards`, opacity: 0 }}
-            >
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-primary">
-                  <pillar.icon className="h-8 w-8" />
-                </div>
-                <p className="mt-4 font-sans text-base font-semibold">{pillar.title}</p>
-              </CardContent>
-            </Card>
-          ))}
+      <div className="mt-20 grid gap-12 md:grid-cols-2">
+        <div className="rounded-2xl border bg-card p-8 shadow-sm">
+          <h3 className="font-sans text-2xl font-bold tracking-tight">Our Vision</h3>
+          <p className="mt-4 text-lg text-foreground/70">
+            To cultivate the next generation of African architects by providing guidance, practical skills, and opportunities to grow into industry-ready professionals.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border bg-card p-8 shadow-sm">
+          <h3 className="font-sans text-2xl font-bold tracking-tight">Our Mission</h3>
+          <ul className="mt-4 space-y-3 text-left text-lg text-foreground/70">
+            <li className="flex items-start gap-2">
+              <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+              <span>Connect students to mentors and industry experts.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+              <span>Provide practical, project-based learning experiences.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+              <span>Support mental wellness and resilience.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+              <span>Showcase student work and achievements.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
+              <span>Encourage innovation, sustainability, and African-context design.</span>
+            </li>
+          </ul>
         </div>
       </div>
     </section>

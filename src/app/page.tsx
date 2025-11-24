@@ -3,8 +3,8 @@ import Footer from '@/components/layout/footer'
 import Hero from '@/components/landing/hero'
 import About from '@/components/landing/about'
 import Community from '@/components/landing/community'
-import Archive from '@/components/landing/archive'
 import Join from '@/components/landing/join'
+import HowItWorks from '@/components/landing/how-it-works'
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
         <Hero />
         <About />
         <Community />
-        <Archive />
+        <HowItWorks />
         <Join />
       </main>
       <Footer />

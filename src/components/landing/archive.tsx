@@ -8,8 +8,11 @@ export default function Archive() {
   const archiveImage = PlaceHolderImages.find((img) => img.id === 'archive-image')
 
   return (
-    <section id="archive" className="bg-secondary/50">
-      <div className="container mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-24 md:grid-cols-2 md:px-6 lg:gap-24">
+    <section id="archive" className="relative overflow-hidden bg-gradient-to-br from-secondary/30 via-background to-secondary/30">
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-radial opacity-20" />
+
+      <div className="container relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-24 md:grid-cols-2 md:px-6 lg:gap-24">
         <div className="flex flex-col items-start text-center md:text-left">
           <h2 className="font-sans text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl">
             Open Knowledge Archive
@@ -18,15 +21,15 @@ export default function Archive() {
             AETHER is building an open archive of African design, research, and
             case studies — a resource for students, professionals, and the world.
           </p>
-          <Button asChild size="lg" variant="default" className="mt-10 group">
+          <Button asChild size="lg" variant="default" className="mt-10 group bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to hover:shadow-glow-lg transition-all duration-300 border-0">
             <Link href="https://t.me/archivault_official" target="_blank">
               Explore the Archive <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>
-        <div className="relative h-[500px] w-full overflow-hidden rounded-xl shadow-lg">
+        <div className="relative h-[500px] w-full overflow-hidden rounded-2xl shadow-premium ring-2 ring-border/50 transition-all duration-500 hover:shadow-glow hover:ring-gradient-from/50">
           {archiveImage && (
-             <Image
+            <Image
               src={archiveImage.imageUrl}
               alt={archiveImage.description}
               data-ai-hint={archiveImage.imageHint}
